@@ -160,14 +160,19 @@ IV_UA01m
 
 ## 테이블 목록
 
-| No   | table id | table name   | comment |      |
-| ---- | -------- | ------------ | ------- | ---- |
-| 1    | TB_UA01M | 유저기본     |         |      |
-|      | TB_UA02L | 유저친구내역 |         |      |
-|      | TB_CH00L | 채팅차단내역 |         |      |
-|      | TB_CM01M | 코드기본     |         |      |
-|      | TB_CM01D | 코드상세     |         |      |
-|      |          |              |         |      |
+| No   | table id | table name       | comment |      |
+| ---- | -------- | ---------------- | ------- | ---- |
+| 1    | TB_UA01M | 유저기본         |         |      |
+|      | TB_UA02L | 유저친구내역     |         |      |
+|      | TB_CH00L | 채팅차단내역     |         |      |
+|      | TB_CM01M | 코드기본         |         |      |
+|      | TB_CM01D | 코드상세         |         |      |
+|      |          |                  |         |      |
+|      | TB_CH01L | 채팅방내역       |         |      |
+|      | TB_CH02L | 채팅방참가자내역 |         |      |
+|      | TB_CH03D | 채팅방제약상세   |         |      |
+|      | TB_CH04L | 채팅방메시지내역 |         |      |
+|      |          |                  |         |      |
 
 
 
@@ -241,6 +246,20 @@ IV_UA01m
 
 
 
+
+
+
+- TB_CH01L
+
+|      | key  | colunm id     | column name      | null     | data type   | domain | comment                    | default |
+| ---- | ---- | ------------- | ---------------- | -------- | ----------- | ------ | -------------------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id       | not null | Number      |        |                            |         |
+|      |      | CHNN_NAME     | channel name     | not null | varchar(50) |        |                            |         |
+|      |      | CHNN_TYPE     | channel type     | not null | Enum(?)     |        | Public, protected, private |         |
+|      |      | MAXIMUM       | Maximum people   | not null | Number      |        |                            |         |
+|      |      | PASSWORD      | channel password | Null     | varchar(50) |        |                            |         |
+|      |      | EXISTENCE     | existence        | not null | Boolean     |        |                            |         |
+|      |      | CREAT_IN_DTTM | creation time    | not null | date        |        |                            |         |
 
 
 
