@@ -285,7 +285,14 @@ IV_UA01m
 
 
 
+- TB_CH04L
 
+|      | key  | colunm id     | column name   | null     | data type    | domain | comment           | default |
+| ---- | ---- | ------------- | ------------- | -------- | ------------ | ------ | ----------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id    | not null | Number       |        |                   |         |
+|      | k    | USER_ID       | user id       | not null | number       |        |                   |         |
+|      |      | MESSAGE       | Message       | not null | varchar(300) |        | 최대길이 정해야함 |         |
+|      | k    | CREAT_IN_DTTM | creation time | not null | date         |        |                   |         |
 
 
 
