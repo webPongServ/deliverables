@@ -245,92 +245,30 @@ IV_UA01m
 
 
 
-
-
-
-
 - TB_CH01L
 
 |      | key  | colunm id     | column name      | null     | data type   | domain | comment                    | default |
 | ---- | ---- | ------------- | ---------------- | -------- | ----------- | ------ | -------------------------- | ------- |
 | 1    | k    | CHNN_ID       | channel id       | not null | Number      |        |                            |         |
 |      |      | CHNN_NAME     | channel name     | not null | varchar(50) |        |                            |         |
-|      |      | CHNN_TYPE     | channel type     | not null | Enum(?)     |        | Public, protected, private |         |
+|      |      | CHNN_TYPE     | channel type     | not null | Enum        |        | Public, protected, private |         |
 |      |      | MAXIMUM       | Maximum people   | not null | Number      |        |                            |         |
 |      |      | PASSWORD      | channel password | Null     | varchar(50) |        |                            |         |
-|      |      | EXISTENCE     | existence        | not null | Boolean     |        |                            |         |
+|      |      | EXISTENCE     | existence        | not null | Boolean     |        | 채팅방 존재 유무           |         |
 |      |      | CREAT_IN_DTTM | creation time    | not null | date        |        |                            |         |
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- TB_CH02L
+
+|      | key  | colunm id     | column name | null     | data type | domain | comment                               | default |
+| ---- | ---- | ------------- | ----------- | -------- | --------- | ------ | ------------------------------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id  | not null | Number    |        |                                       |         |
+|      | k    | USER_ID       | user id     | not null | number    |        |                                       |         |
+|      |      | AUTHORITY     | authority   | not null | Enum      |        | Owner, Administrator, Normal(, slave) |         |
+|      |      | EXISTENCE     | existence   | not null | Boolean   |        |                                       |         |
+|      |      | ENTRY_IN_DTTM | entry time  | not null | date      |        |                                       |         |
+|      |      | CHNGE_IN_DTTM | change time | not null | date      |        |                                       |         |
 
 
 
