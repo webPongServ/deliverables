@@ -272,6 +272,19 @@ IV_UA01m
 
 
 
+- TB_CH03D
+
+|      | key  | colunm id     | column name   | null     | data type | domain | comment   | default |
+| ---- | ---- | ------------- | ------------- | -------- | --------- | ------ | --------- | ------- |
+| 1    | k    | CHNN_ID       | channel id    | not null | Number    |        |           |         |
+|      | k    | USER_ID       | user id       | not null | number    |        |           |         |
+|      | k    | RESTRICTION   | restriction   | not null | Enum      |        | Mute, Ban |         |
+|      |      | VALID         | Valid         | not null | Boolean   |        |           |         |
+|      |      | CREAT_IN_DTTM | creation time | not null | date      |        |           |         |
+|      |      | CHNGE_IN_DTTM | change time   | not null | date      |        |           |         |
+
+
+
 
 
 
