@@ -154,20 +154,26 @@ COMMENT ON COLUMN ACHIVEMENT.RULE IS ‘ACHIVE_RULE’;
 
 
 
-IV_UA01m
-
 
 
 ## 테이블 목록
 
-| No   | table id | table name       | comment |      |
-| ---- | -------- | ---------------- | ------- | ---- |
-| 1    | TB_UA01M | 유저기본         |         |      |
-|      | TB_UA02L | 유저친구내역     |         |      |
-|      | TB_CH00L | 채팅차단내역     |         |      |
-|      | TB_CM01M | 코드기본         |         |      |
-|      | TB_CM01D | 코드상세         |         |      |
-|      |          |                  |         |      |
+| No   | table id | table name         | comment |      |
+| ---- | -------- | ------------------ | ------- | ---- |
+| 1    | TB_UA01M | 유저기본           |         |      |
+|      | TB_UA01L | 유저상태내역       |         |      |
+|      | TB_UA02L | 유저친구내역       |         |      |
+|      | TB_GM01L | 게임내역           |         |      |
+|      | TB_GM01D | 게임상세           |         |      |
+|      | TB_GM02S | 유저별게임통계     |         |      |
+|      | TB_GM03M | 게임업적기본       |         |      |
+|      | TB_GM04L | 유저별게임업적상세 |         |      |
+|      | TB_GM05D | 게임옵션상세       |         |      |
+|      | TB_GM06L | 레더대기내역       |         |      |
+|      | TB_CM01D | 공통코드상세       |         |      |
+|      |          |                    |         |      |
+|      | TB_CH0XL | 메세지 차단내역    |         |      |
+|      |          |                    |         |      |
 |      | TB_CH01L | 채팅방내역       |         |      |
 |      | TB_CH02L | 채팅방참가자내역 |         |      |
 |      | TB_CH03D | 채팅방제약상세   |         |      |
@@ -182,68 +188,180 @@ IV_UA01m
 
 
 
-- TB_UA01M
+- TB_UA01M 유저기본
 
-|      | key  | colunm id      | column name            | null     | data type   | domain                 | comment          | default  |
-| ---- | ---- | -------------- | ---------------------- | -------- | ----------- | ---------------------- | ---------------- | -------- |
-| 1    | k    | INTRA_ID       | 42intra id             | not null |             |                        |                  |          |
-|      | u    |                | 닉네임                 | not null |             | 1~8 글자(숫자영문한글) |                  | intra id |
-|      |      | TWOFACTOR      |                        | not null | boolean     |                        | 42intra 검증컬럼 |          |
-|      |      | TWOFACTOR_DATA |                        |          | varchar(50) |                        | 42intra 검증컬럼 |          |
-|      |      | status         |                        |          |             |                        |                  |          |
-|      |      |                |                        |          |             |                        |                  |          |
-|      |      | FRST_IN_DTTM   | 최초 입력 연월일시분초 | not null | date        |                        |                  |          |
-|      |      | LAST_IN_DTTM   | 최종 입력 연월일시분초 | not null | date        |                        |                  |          |
+|      | key  | colunm id      | column name            | null     | data type    | domain                 | comment          | default         |
+| ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ---------------------- | ---------------- | --------------- |
+| 1    | k    | INTRA_ID       | 42intra id             | not null | varchar(200) |                        |                  |                 |
+| 2    | u    |                | 닉네임                 | not null | varchar(200) | 1~8 글자(숫자영문한글) |                  | intra id        |
+| 3    |      | TWOFACTOR      | 투펙터여부             | not null | boolean      |                        | 42intra 검증컬럼 |                 |
+| 4    |      | TWOFACTOR_DATA | 투벡터데이터           |          | varchar(50)  |                        | 42intra 검증컬럼 |                 |
+| 5    |      | IMG_PATH       | 이미지경로             | not null | varchar(200) |                        |                  | img/default.png |
+| 6    |      | DEL_YN         | 삭제여부               | not null | varchar(1)   | 삭제:Y                 |                  | N               |
+| 7    |      | FRST_IN_DTTM   | 최초 입력 연월일시분초 | not null | date         |                        |                  |                 |
+| 8    |      | LAST_IN_DTTM   | 최종 입력 연월일시분초 | not null | date         |                        |                  |                 |
 
-
-
-
-
-
-
-- TB_UA02L
-
-|      | key  | colunm id   | column name     | null     | data type | domain | comment | default |
-| ---- | ---- | ----------- | --------------- | -------- | --------- | ------ | ------- | ------- |
-| 1    | K, F | INTRA_ID    | 42intra id      | not null |           |        |         |         |
-|      | K    | FR_INTRA_ID | 친구 42intra id | not null |           |        |         |         |
-|      |      | ST_CD       | 상태코드        | not null |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
+- 회원가입에 의해서 데이터가 추가된다.
+- 최초 회원가입 시 닉네임은 intra_id 로 대체한다.
+  - 새로운 닉네임으로 변경하려면 1~8글자 내에서만 가능하다.
+- 이미지는 경로가 저장되고, 기본이미지가 존재한다.
+  - 이미지를 입력하려면 기존파일이름이 아닌,새로운 파일이름으로 unique한 데이터를 생성해서 저장해야 한다.
 
 
 
+- TB_UA01L 유저상태 내역
+
+|      | key  | colunm id    | column name            | null     | data type | domain             | comment | default |
+| ---- | ---- | ------------ | ---------------------- | -------- | --------- | ------------------ | ------- | ------- |
+| 1    | k, F | INTRA_ID     | 42intra id             | not null |           |                    |         |         |
+| 2    | k    | LOGIN_SEQ    | 로그인 시퀀스          | not null | number    | increment sequence |         |         |
+| 3    |      |              | 로그인시간             | not null | date      |                    |         | sysdate |
+| 4    |      |              | 로그아웃시간           |          | date      |                    |         |         |
+| 5    |      |              | 채팅여부               | not null | boolean   |                    |         | false   |
+| 6    |      |              | 게임여부               | not null | boolean   |                    |         | false   |
+| 7    |      | SESSION_ID   | 세션ID                 | not null |           |                    |         |         |
+| 8    |      |              | 로그인여부             | not null | boolean   |                    |         | true    |
+|      |      |              |                        |          |           |                    |         |         |
+| 9    |      | FRST_IN_DTTM | 최초 입력 연월일시분초 | not null | date      |                    |         |         |
+| 10   |      | LAST_IN_DTTM | 최종 입력 연월일시분초 | not null | date      |                    |         |         |
+
+- 로그인 시 데이터가 추가된다. (로그인여부Y, 채팅여부N, 게임여부N)
+- 친구목록의 상태는 해당 테이블을 참고한다.
+- 로그아웃되는 순간 로그인여부,채팅여부,게임여부는 N이 되어야 한다.
+- 로그아웃 : 1) 웹사이트 이벤트가 10분이상 없는 경우 서버가 로그아웃 처리. 2) 사용자가 로그아웃 버튼 클릭
+- 채팅여부 :  Y -  채팅입장, N - 채팅나가기, 게임참가, 로그아웃, 채팅소켓의 헬스체크 미응답
+- 게임여부 : Y - 게임참가, N - 게임종료, 게임나가기, 채팅참가, 로그아웃 , 채팅소켓의 헬스체크 미응답
+- 세션ID : 추가할지 말지 고민중. (중복로그인 체크)
 
 
-- TB_CM01M
-
-|      | key  | colunm id   | column name     | null     | data type | domain | comment | default |
-| ---- | ---- | ----------- | --------------- | -------- | --------- | ------ | ------- | ------- |
-| 1    | K, F | INTRA_ID    | 42intra id      | not null |           |        |         |         |
-|      | K    | FR_INTRA_ID | 친구 42intra id | not null |           |        |         |         |
-|      |      | ST_CD       | 상태코드        |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
 
 
 
-- TB_CM01D
+- TB_UA02L 유저친구내역
 
-|      | key  | colunm id   | column name     | null     | data type | domain | comment | default |
-| ---- | ---- | ----------- | --------------- | -------- | --------- | ------ | ------- | ------- |
-| 1    | K, F | INTRA_ID    | 42intra id      | not null |           |        |         |         |
-|      | K    | FR_INTRA_ID | 친구 42intra id | not null |           |        |         |         |
-|      |      | ST_CD       | 상태코드        |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
-|      |      |             |                 |          |           |        |         |         |
+|      | key  | colunm id   | column name     | null     | data type | domain          | comment | default |
+| ---- | ---- | ----------- | --------------- | -------- | --------- | --------------- | ------- | ------- |
+| 1    | K, F | INTRA_ID    | 42intra id      | not null |           |                 |         |         |
+| 2    | K    | FR_INTRA_ID | 친구 42intra id | not null |           |                 |         |         |
+| 3    |      | ST_CD       | 상태코드        | not null |           | 01:등록,02:해제 |         |         |
+|      |      |             |                 |          |           |                 |         |         |
+| 4    |      |             | 등록일시        |          | date      |                 |         |         |
+| 5    |      |             | 해제일시        |          | date      |                 |         |         |
+
+- 사용자가 웹사이트에서 직접 등록 혹은 해제한다.
+- 같은 친구 등록/해제를 반복할 경우 데이터추가가 아닌 변경이 이루어진다.
 
 
+
+
+
+- TB_GM01L  게임내역
+  - 게임내역을 관리하는 테이블이다.
+
+
+|      | key  | colunm id | column name  | null     | data type   | domain                     | comment | default     |
+| ---- | ---- | --------- | ------------ | -------- | ----------- | -------------------------- | ------- | ----------- |
+| 1    | K    |           | 게임일련번호 | not null | vachar(12)  | YYYYMMDDNNNN, N : seq      |         |             |
+| 2    |      |           | 게임시작시간 |          | date        |                            |         |             |
+| 3    |      |           | 게임종료시간 |          | date        |                            |         |             |
+| 4    |      |           | 게임유형     | not null | varchar(2)  | 01:1v1, 02:ladder          |         |             |
+| 5    |      |           | 종료유형     | not null | varchar(2)  | 01:게임중 02:점수, 03:닷지 |         | 01          |
+| 6    |      |           | 요구점수     | not null | number      |                            |         | 5           |
+| 7    |      |           | 바길이       | not null | vachar(200) |                            |         | 100         |
+| 8    |      |           | 배경         | not null | vachar(200) |                            |         | default.png |
+|      |      |           |              |          |             |                            |         |             |
+|      |      |           |              |          |             |                            |         |             |
+|      |      |           |              |          |             |                            |         |             |
+
+- 게임시작시간 : 플레이어2명 입장 시 now() 로 업데이트 된다.
+- 게임종료시간 : 게임종료 or 플레이어임의탈주일 경우 now()로 세팅된다.
+- 요구점수,바길이,배경은 게임옵션상세 테이블을 참고하여 세팅해야 한다.
+
+
+
+
+
+- TB_GM01D  게임상세
+  - 게임 1판당 플레이어의 속성을 관리하는 테이블이다.
+
+
+|      | key  | colunm id | column name  | null     | data type    | domain                | comment | default  |
+| ---- | ---- | --------- | ------------ | -------- | ------------ | --------------------- | ------- | -------- |
+| 1    | K, F |           | 게임일련번호 | not null | vachar(12)   | YYYYMMDDNNNN, N : seq |         |          |
+| 2    | K    |           | 플레이어ID   | not null | varchar(200) | TB_UA01M.INTRA_ID     |         |          |
+| 3    |      |           | 획득점수     | not null | number       |                       |         | 0        |
+| 4    |      |           | 승리여부     |          | varchar(1)   | 승리:Y, 패배:N        |         |          |
+| 5    |      |           | 결과포인트   |          | number       | ELO룰에 따라 생성됨   |         |          |
+| 6    |      |           | 게임입장시간 | not null | date         |                       |         | 현재시간 |
+| 7    |      |           | 게임퇴장시간 |          | date         |                       |         |          |
+|      |      |           |              |          |              |                       |         |          |
+|      |      |           |              |          |              |                       |         |          |
+|      |      |           |              |          |              |                       |         |          |
+
+- 게임일련번호 : 202304160001 ~ 9999
+  - 하루 최대 1만판 미만 가능.
+
+- 게임 입장 시 데이터가 추가된다.
+
+
+
+
+
+- TB_GM02S  유저별게임통계
+  - 게임 종료 후 갱신된다.
+
+
+|      | key  | colunm id | column name | null     | data type    | domain | comment | default |
+| ---- | ---- | --------- | ----------- | -------- | ------------ | ------ | ------- | ------- |
+| 1    | K    |           | 플레이어ID  | not null | varchar(200) |        |         |         |
+| 2    |      |           | 총전적      | not null | number       |        |         |         |
+| 3    |      |           | 총승리      | not null | number       |        |         |         |
+| 4    |      |           | 총패배      | not null | number       |        |         |         |
+| 5    |      |           | 현재포인트  | not null | number       |        |         |         |
+| 6    |      |           | 레더승률    | not null | number       | 60(%)  |         | 0       |
+
+- 일별,월별 통계 생성 고려
+  - 데이터량이 많지 않을것으로 예상되어 고려안함.
+
+
+
+
+
+> 업적<br />  -> 1,42승 업적<br />  -> 1, 42패<br />  -> 친구 1, 5명<br />  -> besilence : 차단1명, 차단마스터: 5명차단.<br />  -> 나는 어그로꾼이다!! : 벤당한 횟수 3회
+
+
+
+- TB_GM03M 게임업적기본
+
+
+|      | key  | colunm id | column name    | null     | data type    | domain | comment | default |
+| ---- | ---- | --------- | -------------- | -------- | ------------ | ------ | ------- | ------- |
+| 1    | K    |           | 업적코드       | not null | varchar(200) |        |         |         |
+| 2    |      |           | 업적명         |          |              |        |         |         |
+|      |      |           | 업적설명       |          |              |        |         |         |
+|      |      |           | 업적이미지위치 |          |              |        |         |         |
+|      |      |           |                |          |              |        |         |         |
+|      |      |           |                |          |              |        |         |         |
+|      |      |           |                |          |              |        |         |         |
+
+
+
+- TB_GM04D  유저별게임업적상세
+
+
+|      | key  | colunm id | column name  | null     | data type    | domain | comment | default |
+| ---- | ---- | --------- | ------------ | -------- | ------------ | ------ | ------- | ------- |
+| 1    | K    |           | 플레이어ID   | not null | varchar(200) |        |         |         |
+| 2    | F    |           | 업적코드     |          |              |        |         |         |
+| 3    |      |           | 업적달성일시 |          |              |        |         |         |
+|      |      |           |              |          |              |        |         |         |
+| 4    |      |           |              |          |              |        |         |         |
+| 5    |      |           |              |          |              |        |         |         |
+
+- 업적은 일단 한번 달성하면 이후 충족되지 않더라도 유지됨을 가정한다.
+- 업적달성 시 검증 후 데이터를 추가하거나, 배치를 통해 추가할 수 있다.
+  - 검증로직은 게임룰 문서만 명시하고 DB로 관리하지는 않도록 한다. (**회의필요**)
+- 프로필에서 조회할 때에는 게임업적기본 테이블과 outer join해서 사용한다.
 
 - TB_CH01L
 
@@ -261,6 +379,9 @@ IV_UA01m
 
 - TB_CH02L
 
+- **업적달성 룰 관리**
+  - **업적룰을 정하려면 업무에따른 테이블,컬럼명을 관리하는 테이블이 추가되야 한다. 너무 TMI**
+  - **따라서 업적을 정하는 룰 테이블은 생략하고 문서화만 하도록 고려.**
 |      | key  | colunm id     | column name | null     | data type | domain | comment                               | default |
 | ---- | ---- | ------------- | ----------- | -------- | --------- | ------ | ------------------------------------- | ------- |
 | 1    | k    | CHNN_ID       | channel id  | not null | Number    |        |                                       |         |
@@ -282,6 +403,126 @@ IV_UA01m
 |      |      | VALID         | Valid         | not null | Boolean   |        |           |         |
 |      |      | CREAT_IN_DTTM | creation time | not null | date      |        |           |         |
 |      |      | CHNGE_IN_DTTM | change time   | not null | date      |        |           |         |
+
+-   TB_GM05D 게임옵션상세
+  - 게임환경을 정의하는 테이블이다.
+  - 게임 시작 시 해당테이블을 참고해야 한다.
+
+
+|      | key  | colunm id | column name  | null     | data type    | domain | comment | default |
+| ---- | ---- | --------- | ------------ | -------- | ------------ | ------ | ------- | ------- |
+| 1    | k    |           | 옵션코드     | not null | varchar(100) |        |         | 2       |
+| 2    | k    |           | 옵션상세코드 | not null | varchar(100) |        |         |         |
+| 3    |      |           | 옵션명       | not null | varchar(200) |        |         |         |
+| 4    |      |           | 옵션값       | not null | varchar(200) |        |         |         |
+|      |      |           |              |          |              |        |         |         |
+| 5    |      |           | 생성일시     | not null | date         |        |         | now     |
+| 6    |      |           | 변경일시     | not null | date         |        |         | now     |
+
+- 업무가 복잡하지 않으므로 옵선기본,상세 테이블로 나누지 않는다.
+
+
+
+
+
+- **SAMPLE**
+
+| 옵션코드    | 옵션상세코드 | 옵션명       | 옵션값       |
+| ----------- | ------------ | ------------ | ------------ |
+| BAR         | 01           | 바 길이      | 10           |
+| BAR         | 02           | 바 길이      | 50           |
+| BAR         | 03           | 바 길이      | 100          |
+| SCORE       | 01           | 점수         | 3            |
+| SCORE       | 02           | 점수         | 5            |
+| SCORE       | 03           | 점수         | 7            |
+| BACKBROUND  | 01           | 배경         | default.png  |
+| BACKBROUND  | 02           | 배경         | default2.png |
+| BACKBROUND  | 03           | 배경         | default3.png |
+| LADDER_WAIT | 01           | 레더대기시간 | 60           |
+
+
+
+
+
+- TB_GM06L 레더대기내역
+  - 서버 스케쥴러에서 해당테이블을 참조하면서 게임매칭을 진행한다.
+
+|      | key  | colunm id | column name      | null     | data type | domain       | comment | default |
+| ---- | ---- | --------- | ---------------- | -------- | --------- | ------------ | ------- | ------- |
+| 1    | k, F |           | 플레이어ID       | not null |           |              |         |         |
+| 2    | k    |           | 레더대기일련번호 | not null |           | YYYYMMDDNNNN |         |         |
+| 3    |      |           | 매칭신청일시     | not null |           |              |         |         |
+| 4    |      |           | 매칭여부         | not null |           |              |         | 'N'     |
+| 5    |      |           | 레더대기여부     | not null |           |              |         | 'Y'     |
+| 6    |      |           | 매칭플레이어ID   |          |           |              |         |         |
+| 7    | F    |           | 게임일련번호     |          |           |              |         |         |
+| 8    |      |           |                  |          |           |              |         |         |
+| 9    |      |           |                  |          |           |              |         |         |
+
+- 임의사용자가 레더신청 시  데이터가 추가된다.
+
+- 매칭이후 게임일련번호가 업데이트 되어야 한다. 
+- 매칭제한시간이 지나면 레더대기여부가 N 으로 세팅되고 더이상 추적되지 않는다.
+
+
+
+
+
+- **TB_CH01L ** 메세지차단유저내역
+
+|      | key  | colunm id      | column name      | null     | data type | domain          | comment | default |
+| ---- | ---- | -------------- | ---------------- | -------- | --------- | --------------- | ------- | ------- |
+| 1    | K, F | INTRA_ID       | 42intra id       | not null |           |                 |         |         |
+| 2    | K    | BLOCK_INTRA_ID | block 42intra id | not null |           |                 |         |         |
+| 3    |      | ST_CD          | 상태코드         | not null |           | 01:지정,02:해제 |         |         |
+|      |      |                |                  |          |           |                 |         |         |
+|      |      |                | 변경일시         |          |           |                 |         |         |
+|      |      |                |                  |          |           |                 |         |         |
+|      |      |                |                  |          |           |                 |         |         |
+
+- 처음 블락지정 시 데이터가 생성되고, 이후 상태가 변경되면 update 만 진행하고 히스토리는 관리하지 않음.
+
+- 친구내역 테이블과 병합고려
+
+  - 메시지차단 유저의 DM요청 카운트 등 확장여지가 있으므로 분리하는게 나음.
+
+  
+
+
+
+- TB_CM01D 공통코드상세
+  - WPS 에서 관리하는 각종 코드들을 정의하는 테이블이다.
+
+|      | key  | colunm id | column name      | null     | data type  | domain | comment | default |
+| ---- | ---- | --------- | ---------------- | -------- | ---------- | ------ | ------- | ------- |
+| 1    | K    |           | 공통코드         | not null |            |        |         |         |
+| 2    | K    |           | 공통코드상세코드 | not null |            |        |         |         |
+| 3    |      |           | 공통코드명       | not null |            |        |         |         |
+| 4    |      |           | 공통코드상세명   | not null |            |        |         |         |
+| 5    |      | USE_YN    | 사용여부         |          | varchar(1) |        |         |         |
+| 6    |      |           | 생성일시         |          |            |        |         |         |
+| 7    |      |           | 변경일시         |          |            |        |         |         |
+
+- 업무가 복잡하지 않으므로 공통코드 기본,상세 테이블로 나누지 않는다.
+
+
+
+
+
+
+
+
+
+## 기본이미지 테이블 관련 만드러야함
+
+#  뮤트42초
+
+패스워드
+
+
+
+
+
 
 
 
