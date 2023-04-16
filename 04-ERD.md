@@ -253,7 +253,7 @@ IV_UA01m
 |      |      | CHNN_NAME     | channel name     | not null | varchar(50) |        |                            |         |
 |      |      | CHNN_TYPE     | channel type     | not null | Enum        |        | Public, protected, private |         |
 |      |      | MAXIMUM       | Maximum people   | not null | Number      |        |                            |         |
-|      |      | PASSWORD      | channel password | Null     | varchar(50) |        |                            |         |
+|      |      | PASSWORD      | channel password | Null     | varchar(64) |        |                            |         |
 |      |      | EXISTENCE     | existence        | not null | Boolean     |        | 채팅방 존재 유무           |         |
 |      |      | CREAT_IN_DTTM | creation time    | not null | date        |        |                            |         |
 
@@ -293,7 +293,6 @@ IV_UA01m
 |      | k    | USER_ID       | user id       | not null | number       |        |                   |         |
 |      |      | MESSAGE       | Message       | not null | varchar(300) |        | 최대길이 정해야함 |         |
 |      | k    | CREAT_IN_DTTM | creation time | not null | date         |        |                   |         |
-
 
 
 
