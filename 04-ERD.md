@@ -174,6 +174,11 @@ COMMENT ON COLUMN ACHIVEMENT.RULE IS ‘ACHIVE_RULE’;
 |      |          |                    |         |      |
 |      | TB_CH0XL | 메세지 차단내역    |         |      |
 |      |          |                    |         |      |
+|      | TB_CH01L | 채팅방내역       |         |      |
+|      | TB_CH02L | 채팅방참가자내역 |         |      |
+|      | TB_CH03D | 채팅방제약상세   |         |      |
+|      | TB_CH04L | 채팅방메시지내역 |         |      |
+|      |          |                  |         |      |
 
 
 
@@ -358,17 +363,46 @@ COMMENT ON COLUMN ACHIVEMENT.RULE IS ‘ACHIVE_RULE’;
   - 검증로직은 게임룰 문서만 명시하고 DB로 관리하지는 않도록 한다. (**회의필요**)
 - 프로필에서 조회할 때에는 게임업적기본 테이블과 outer join해서 사용한다.
 
+- TB_CH01L
+
+|      | key  | colunm id     | column name      | null     | data type   | domain | comment                    | default |
+| ---- | ---- | ------------- | ---------------- | -------- | ----------- | ------ | -------------------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id       | not null | Number      |        |                            |         |
+|      |      | CHNN_NAME     | channel name     | not null | varchar(50) |        |                            |         |
+|      |      | CHNN_TYPE     | channel type     | not null | Enum        |        | Public, protected, private |         |
+|      |      | MAXIMUM       | Maximum people   | not null | Number      |        |                            |         |
+|      |      | PASSWORD      | channel password | Null     | varchar(64) |        |                            |         |
+|      |      | EXISTENCE     | existence        | not null | Boolean     |        | 채팅방 존재 유무           |         |
+|      |      | CREAT_IN_DTTM | creation time    | not null | date        |        |                            |         |
 
 
 
+- TB_CH02L
 
 - **업적달성 룰 관리**
   - **업적룰을 정하려면 업무에따른 테이블,컬럼명을 관리하는 테이블이 추가되야 한다. 너무 TMI**
   - **따라서 업적을 정하는 룰 테이블은 생략하고 문서화만 하도록 고려.**
+|      | key  | colunm id     | column name | null     | data type | domain | comment                               | default |
+| ---- | ---- | ------------- | ----------- | -------- | --------- | ------ | ------------------------------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id  | not null | Number    |        |                                       |         |
+|      | k    | USER_ID       | user id     | not null | number    |        |                                       |         |
+|      |      | AUTHORITY     | authority   | not null | Enum      |        | Owner, Administrator, Normal(, slave) |         |
+|      |      | EXISTENCE     | existence   | not null | Boolean   |        |                                       |         |
+|      |      | ENTRY_IN_DTTM | entry time  | not null | date      |        |                                       |         |
+|      |      | CHNGE_IN_DTTM | change time | not null | date      |        |                                       |         |
 
 
 
+- TB_CH03D
 
+|      | key  | colunm id     | column name   | null     | data type | domain | comment   | default |
+| ---- | ---- | ------------- | ------------- | -------- | --------- | ------ | --------- | ------- |
+| 1    | k    | CHNN_ID       | channel id    | not null | Number    |        |           |         |
+|      | k    | USER_ID       | user id       | not null | number    |        |           |         |
+|      | k    | RESTRICTION   | restriction   | not null | Enum      |        | Mute, Ban |         |
+|      |      | VALID         | Valid         | not null | Boolean   |        |           |         |
+|      |      | CREAT_IN_DTTM | creation time | not null | date      |        |           |         |
+|      |      | CHNGE_IN_DTTM | change time   | not null | date      |        |           |         |
 
 -   TB_GM05D 게임옵션상세
   - 게임환경을 정의하는 테이블이다.
@@ -492,22 +526,14 @@ COMMENT ON COLUMN ACHIVEMENT.RULE IS ‘ACHIVE_RULE’;
 
 
 
+- TB_CH04L
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+|      | key  | colunm id     | column name   | null     | data type    | domain | comment           | default |
+| ---- | ---- | ------------- | ------------- | -------- | ------------ | ------ | ----------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id    | not null | Number       |        |                   |         |
+|      | k    | USER_ID       | user id       | not null | number       |        |                   |         |
+|      |      | MESSAGE       | Message       | not null | varchar(300) |        | 최대길이 정해야함 |         |
+|      | k    | CREAT_IN_DTTM | creation time | not null | date         |        |                   |         |
 
 
 
