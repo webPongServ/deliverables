@@ -160,14 +160,19 @@ IV_UA01m
 
 ## 테이블 목록
 
-| No   | table id | table name   | comment |      |
-| ---- | -------- | ------------ | ------- | ---- |
-| 1    | TB_UA01M | 유저기본     |         |      |
-|      | TB_UA02L | 유저친구내역 |         |      |
-|      | TB_CH00L | 채팅차단내역 |         |      |
-|      | TB_CM01M | 코드기본     |         |      |
-|      | TB_CM01D | 코드상세     |         |      |
-|      |          |              |         |      |
+| No   | table id | table name       | comment |      |
+| ---- | -------- | ---------------- | ------- | ---- |
+| 1    | TB_UA01M | 유저기본         |         |      |
+|      | TB_UA02L | 유저친구내역     |         |      |
+|      | TB_CH00L | 채팅차단내역     |         |      |
+|      | TB_CM01M | 코드기본         |         |      |
+|      | TB_CM01D | 코드상세         |         |      |
+|      |          |                  |         |      |
+|      | TB_CH01L | 채팅방내역       |         |      |
+|      | TB_CH02L | 채팅방참가자내역 |         |      |
+|      | TB_CH03D | 채팅방제약상세   |         |      |
+|      | TB_CH04L | 채팅방메시지내역 |         |      |
+|      |          |                  |         |      |
 
 
 
@@ -240,83 +245,54 @@ IV_UA01m
 
 
 
+- TB_CH01L
 
+|      | key  | colunm id     | column name      | null     | data type   | domain | comment                    | default |
+| ---- | ---- | ------------- | ---------------- | -------- | ----------- | ------ | -------------------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id       | not null | Number      |        |                            |         |
+|      |      | CHNN_NAME     | channel name     | not null | varchar(50) |        |                            |         |
+|      |      | CHNN_TYPE     | channel type     | not null | Enum        |        | Public, protected, private |         |
+|      |      | MAXIMUM       | Maximum people   | not null | Number      |        |                            |         |
+|      |      | PASSWORD      | channel password | Null     | varchar(64) |        |                            |         |
+|      |      | EXISTENCE     | existence        | not null | Boolean     |        | 채팅방 존재 유무           |         |
+|      |      | CREAT_IN_DTTM | creation time    | not null | date        |        |                            |         |
 
 
 
+- TB_CH02L
 
+|      | key  | colunm id     | column name | null     | data type | domain | comment                               | default |
+| ---- | ---- | ------------- | ----------- | -------- | --------- | ------ | ------------------------------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id  | not null | Number    |        |                                       |         |
+|      | k    | USER_ID       | user id     | not null | number    |        |                                       |         |
+|      |      | AUTHORITY     | authority   | not null | Enum      |        | Owner, Administrator, Normal(, slave) |         |
+|      |      | EXISTENCE     | existence   | not null | Boolean   |        |                                       |         |
+|      |      | ENTRY_IN_DTTM | entry time  | not null | date      |        |                                       |         |
+|      |      | CHNGE_IN_DTTM | change time | not null | date      |        |                                       |         |
 
 
 
+- TB_CH03D
 
+|      | key  | colunm id     | column name   | null     | data type | domain | comment   | default |
+| ---- | ---- | ------------- | ------------- | -------- | --------- | ------ | --------- | ------- |
+| 1    | k    | CHNN_ID       | channel id    | not null | Number    |        |           |         |
+|      | k    | USER_ID       | user id       | not null | number    |        |           |         |
+|      | k    | RESTRICTION   | restriction   | not null | Enum      |        | Mute, Ban |         |
+|      |      | VALID         | Valid         | not null | Boolean   |        |           |         |
+|      |      | CREAT_IN_DTTM | creation time | not null | date      |        |           |         |
+|      |      | CHNGE_IN_DTTM | change time   | not null | date      |        |           |         |
 
 
 
+- TB_CH04L
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+|      | key  | colunm id     | column name   | null     | data type    | domain | comment           | default |
+| ---- | ---- | ------------- | ------------- | -------- | ------------ | ------ | ----------------- | ------- |
+| 1    | k    | CHNN_ID       | channel id    | not null | Number       |        |                   |         |
+|      | k    | USER_ID       | user id       | not null | number       |        |                   |         |
+|      |      | MESSAGE       | Message       | not null | varchar(300) |        | 최대길이 정해야함 |         |
+|      | k    | CREAT_IN_DTTM | creation time | not null | date         |        |                   |         |
 
 
 
