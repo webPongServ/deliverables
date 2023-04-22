@@ -334,18 +334,11 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-GM001.png" style="zoom:150%;" />
 
-| No   | attribute           | event                                  | Request   | Response                                                     | route |
-| ---- | ------------------- | -------------------------------------- | --------- | ------------------------------------------------------------ | ----- |
-| 1    | 게임방 목록         | 참여할 수 있는 게임 목록을 로드        | -         | <게임방> 목록<br />- <게임방> : 게임방 이름, 게임방 owner, 채팅방 유형 생성 시간, 목표 점수, 난이도 | -     |
-| 2    | 정보 보기 버튼      | 해당 유저 프로필 레이어팝업을 호출     | -         | -                                                            | MN003 |
-| 3    | 일반 게임 생성 버튼 | 일반 게임을 생성하는 레이어팝업을 호출 | -         | -                                                            | GM003 |
-| 4    | 래더 게임 시작 버튼 | 레더 게임을 시작하는 레이어팝업을 호출 | 내 닉네임 | -                                                            | GM006 |
-| 5    | 입장 버튼           | 일반 게임 입장 레이어팝업을 호출       | -         | -                                                            | GM002 |
-|      |                     |                                        |           |                                                              |       |
 
-- 래더 게임은 시작 버튼을 누르면 큐에 추가가 되기 때문에 닉네임을 포함하여 서버에 전달한다.
 
-  
+| No   | request - HTTP method, Endpoint | request - parameter | description   | response - status code | response - data                                              | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
+| 1    | GET /games/normal/room-list     |                     | 게임방 리스트 | 200                    | {gameroom_id: string, gameroom_name: string, owner: string}, ... |                       |
 
 
 
@@ -353,16 +346,13 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-GM002.png" style="zoom:150%;" />
 
-| No   | attribute | event                              | Request | Response | route |
-| ---- | --------- | ---------------------------------- | ------- | -------- | ----- |
-| 1    | 확인 버튼 | 참여할 수 있는 게임 목록을 로드    | -       | -        | GM007 |
-| 2    | 취소 버튼 | 해당 유저 프로필 레이어팝업을 호출 | -       | -        | GM001 |
-|      |           |                                    |         |          |       |
-
-- 일반 게임방에 입장하기 전에 레이어팝업을 호출 : 바로 게임이 시작되면 당황스럽기 때문에 설정하였다.
-- 연결이 완료된 시점에서 게임 화면(GM007)로 바뀌기 전에 3초 로딩 시간을 설정한다.
 
 
+| No   | request - HTTP method, Endpoint | request - parameter | description    | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | -------------- | ---------------------- | --------------- | --------------------- |
+| 1    | POST /games/normal/entrance     | gameroom_id: string | 일반 게임 입장 | 201, 403               |                 |                       |
+
+- 게임방 입장 후에 websocket을 이용한 통신
 
 
 
@@ -370,20 +360,13 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-GM003.png" style="zoom:150%;" />
 
-| No   | attribute           | event            | Request                                  | Response    | route |
-| ---- | ------------------- | ---------------- | ---------------------------------------- | ----------- | ----- |
-| 1    | 게임방 제목 폼      | 게임방 제목 입력 | -                                        | -           | -     |
-| 2    | 목표 점수 콤보 박스 | 공목표 점수 입력 | -                                        | -           | -     |
-| 3    | 난이도 선택 폼      | 난이도 입력      | -                                        | -           | -     |
-| 4    | 확인 버튼           | 게임방 생성      | 게임방 제목, 게임 목표 점수, 게임 난이도 | 게임방 번호 | GM004 |
-|      |                     |                  |                                          |             |       |
-
-- 게임방 제목은 최대 20자이다.
-- 목표 점수는 3점에서 10점까지 1점 단위로 고를 수 있다.
-- 난이도는 게임 내 바의 길이를 의미힌다.
-  - ? 아이콘에서 간략한 설명을 달아둘 것!
 
 
+| No   | request - HTTP method, Endpoint | request - parameter                                      | description    | response - status code | response - data     | Table-Column-Variable |
+| ---- | ------------------------------- | -------------------------------------------------------- | -------------- | ---------------------- | ------------------- | --------------------- |
+| 1    | POST /games/normal/creating     | gameroom_name: string, score: number, difficulty: string | 일반 게임 생성 | 201, 403               | gameroom_id: string |                       |
+
+- 게임방 입장 후에 websocket을 이용한 통신
 
 
 
@@ -391,14 +374,13 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-GM004.png" style="zoom:150%;" />
 
-| No   | attribute                   | event                              | Request                | Response    | route |
-| ---- | --------------------------- | ---------------------------------- | ---------------------- | ----------- | ----- |
-| 1    | 게임방 정보                 | 게임방 정보 로드                   | 게임방 번호            | 게임방 제목 | -     |
-| 2    | 게임방 정보 수정 레이어팝업 | 게임방 정보 수정 레이어팝업을 호출 | -                      | -           | GM005 |
-| 3    | 닫기 버튼                   | 게임방 목록 대기실로 복귀          | 내 닉네임, 게임방 번호 | -           | GM001 |
-|      |                             |                                    |                        |             |       |
 
 
+| No   | request - HTTP method, Endpoint | request - parameter | description | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ----------- | ---------------------- | --------------- | --------------------- |
+|      |                                 |                     |             |                        |                 |                       |
+
+- 게임방 입장 후에 websocket을 이용한 통신
 
 
 
@@ -406,15 +388,11 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-GM005.png" style="zoom:150%;" />
 
-| No   | attribute           | event            | Request                                               | Response    | route |
-| ---- | ------------------- | ---------------- | ----------------------------------------------------- | ----------- | ----- |
-| 1    | 게임방 제목 폼      | 게임방 제목 입력 | -                                                     | -           | -     |
-| 2    | 목표 점수 콤보 박스 | 공목표 점수 입력 | -                                                     | -           | -     |
-| 3    | 난이도 선택 폼      | 난이도 입력      | -                                                     | -           | -     |
-| 4    | 수정 버튼           | 게임방 정보 수정 | 게임방 번호, 게임방 제목, 게임 목표 점수, 게임 난이도 | 게임방 번호 | GM004 |
-|      |                     |                  |                                                       |             |       |
 
 
+| No   | request - HTTP method, Endpoint | request - parameter                                          | description    | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------------------------------------------------ | -------------- | ---------------------- | --------------- | --------------------- |
+| 1    | PUT /games/normal/changing-info | gameroom_id: string, gameroom_name: string, score: number, difficulty: string | 일반 게임 수정 | 201, 403               |                 |                       |
 
 
 
@@ -422,10 +400,12 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-GM006.png" style="zoom:150%;" />
 
-| No   | attribute | event                 | Request   | Response | route |
-| ---- | --------- | --------------------- | --------- | -------- | ----- |
-| 1    | 취소 버튼 | 레더 게임 큐에서 제거 | 내 닉네임 | -        | GM004 |
-|      |           |                       |           |          |       |
+
+
+| No   | request - HTTP method, Endpoint  | request - parameter | description         | response - status code | response - data | Table-Column-Variable |
+| ---- | -------------------------------- | ------------------- | ------------------- | ---------------------- | --------------- | --------------------- |
+| 1    | POST /games/ladder/registration  |                     | 래더 게임 등록      | 201                    |                 |                       |
+| 2    | PUT /games/ladder/deregistration |                     | 래더 게임 등록 취소 | 201                    |                 |                       |
 
 
 
@@ -435,17 +415,14 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-GM007.png" style="zoom:150%;" />
 
-| No   | attribute | event                                                        | Request     | Response                                                  | route |
-| ---- | --------- | ------------------------------------------------------------ | ----------- | --------------------------------------------------------- | ----- |
-| 1    | 경기 매칭 | 소켓을 통해? 경기 매칭                                       | -           | 게임방 번호                                               | GM007 |
-| 2    | 경기 정보 | 경기 초기 정보를 로드                                        | 게임방 번호 | 내 닉네임, 상대 닉네임, 경기 점수 정보, 난이도, 목표 점수 | -     |
-| 3    | 공        | 공의 위치가 양 끝이 되면 점수가 올라감<br />- 경기 정보를 업데이트 | -           | -                                                         | -     |
-| 4    | 막대      | 막대 위치를 주기적으로 계속 업데이트                         | -           | -                                                         | -     |
-| 5    | 점수판    | 경기 정보를 표시<br />- 점수가 났을 때, 점수판을 업데이트    | -           | -                                                         | -     |
-| 6    | 경기 종료 | 경기 결과 화면을 띄움                                        | 게임방 번호 |                                                           | GM008 |
-|      |           |                                                              |             |                                                           |       |
 
 
+| No   | request - HTTP method, Endpoint | request - parameter | description | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ----------- | ---------------------- | --------------- | --------------------- |
+|      |                                 |                     |             |                        |                 |                       |
+
+- 게임방 입장 후에 websocket을 이용한 통신
+- gameroom_id 정보를 websocket으로 얻음
 
 
 
@@ -455,38 +432,13 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-GM008-1.png" style="zoom:150%;" />
 
-| No   | attribute       | event                          | Request     | Response                                                     | route |
-| ---- | --------------- | ------------------------------ | ----------- | ------------------------------------------------------------ | ----- |
-| 1    | 게임 결과       | 게임 결과를 로드               | 게임방 번호 | 내 닉네임, 내 이미지, 상대 닉네임, 상대 이미지, 경기 점수 정보, 전체 전적(승, 패), 래더 점수, 레더 점수 증감분 | -     |
-| 2    | 되돌아가기 버튼 | 게임 메인 화면으로 되돌아간다. | -           | -                                                            | MN001 |
-|      |                 |                                |             |                                                              |       |
 
 
+| No   | request - HTTP method, Endpoint | request - parameter | description    | response - status code | response - data                                              | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | -------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
+| 1    | GET /games/result               | gameroom_id: string | 게임 결과 화면 | 200                    | this_info: {game_result: string, game_type: string, user_score: number, opposite_user_id: string, opposite_user_score: number, result_llvl: number}, total_info: {cnt_vct: number, cnt_dft: number, llvl: number} |                       |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- 게임방 입장 후에 websocket을 이용한 통신
 
 
 

@@ -177,6 +177,8 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
+- NOTICE: 게임 난이도 필요 (column 바길이를 게임 난이도로 교체해도 좋을 듯)
+
 - NOTICE: 게임방 이름 필요할 듯
   - Ladder - 게임방 이름 null로
   - string으로 저장
