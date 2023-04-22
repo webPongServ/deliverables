@@ -138,16 +138,16 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
-| No   | request - HTTP method, Endpoint | request - parameter | description      | response - status code | response - data                           | Table-Column-Variable |
-| ---- | ------------------------------- | ------------------- | ---------------- | ---------------------- | ----------------------------------------- | --------------------- |
-| 1    | GET /users/profile/record-count | user_id             | 전적, 래더 점수  | 200                    | win: number, lose: number, ladder: number | TB_GM02S              |
-| 2    | GET /users/profile/records      | user_id             | 게임 전적 리스트 | 200                    | {victory: boolean, opposite: string}      | TB_GM01D              |
-| 3    | GET /users/profile/achievements | user_id             | 업적 리스트      | 200                    | {achiv_name: string, achiv_cmt: string}   | TB_UA03M              |
-| 4    | POST /chats/dm                  | user_id             | DM 요청          | 201                    |                                           |                       |
-| 5    | POST /users/add-friend          | user_id             | 친구 추가        | 201                    |                                           |                       |
-| 6    | POST /users/block               | user_id             | 차단             | 201                    |                                           |                       |
+| No   | request - HTTP method, Endpoint | request - parameter | description      | response - status code | response - data                              | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ---------------- | ---------------------- | -------------------------------------------- | --------------------- |
+| 1    | GET /users/profile/record-count | user_id             | 전적, 래더 점수  | 200                    | win: number, lose: number, ladder: number    | TB_GM02S              |
+| 2    | GET /users/profile/records      | user_id             | 게임 전적 리스트 | 200                    | {victory: boolean, opposite: string}, ...    | TB_GM01D              |
+| 3    | GET /users/profile/achievements | user_id             | 업적 리스트      | 200                    | {achiv_name: string, achiv_cmt: string}, ... | TB_UA03M              |
+| 4    | POST /chats/dm                  | user_id             | DM 요청          | 201                    |                                              |                       |
+| 5    | POST /users/add-friend          | user_id             | 친구 추가        | 201                    |                                              |                       |
+| 6    | POST /users/block               | user_id             | 차단             | 201                    |                                              |                       |
 
-
+- 위에 1~3번 API는 아래의 프로필 영역의 API와 중복되기 때문에 여기서는 삭제할 예정 (유저간의 상호작용 API만 여기에 명세)
 
 
 
@@ -189,28 +189,11 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
-
-
-| No   | attribute          | event                       | Request   | Response                                                     | route |
-| ---- | ------------------ | --------------------------- | --------- | ------------------------------------------------------------ | ----- |
-| 1    | 내 프로필          | 내 프로필 상세 내용을 로드  | 내 닉네임 | 내 닉네임, 내 이미지, 전체 전적(승, 패), 래더 점수           | -     |
-| 2    | 전적 버튼          | 내 전적 로드                | 내 닉네임 | <전적> 목록<br />- <전적> : 내 닉네임, 내 이미지, 내 점수, 내 승패 여부, 상대 닉네임, 상대 이미지, 상대 점수 | PF001 |
-| 3    | 업적 버튼          | 내 업적 로드                | 내 닉네임 | <업적> 목록<br />- <업적> : 업적 이름, 업적 내용, 업적 이미지 | PF002 |
-| 4    | 프로필 수정 버튼   | 프로필 수정 레이어팝업 호출 | -         | -                                                            | PF003 |
-| 5    | 2차 인증 설정 버튼 | 2차 인증 레이어팝업 호출    | -         | -                                                            | PF004 |
-|      |                    |                             |           |                                                              |       |
-
-- 2차 인증 세부 사항 미구현
-
-
-
-
-
-| No   | request - HTTP method, Endpoint | request - parameter | description              | response - status code | response - data                           | Table-Column-Variable |
-| ---- | ------------------------------- | ------------------- | ------------------------ | ---------------------- | ----------------------------------------- | --------------------- |
-| 1    | GET /users/profile/record-count | user_id(intra id)   | 친구목록 리스트 요청     | 200                    | win: number, lose: number, ladder: number | TB_GM02S              |
-| 2    | GET /users/profile/record       | user_id(intra id)   | 게임방(일반) 리스트 요청 | 200                    | {victory: boolean, opposite: string}      | TB_GM01D              |
-| 3    | GET /users/profile/achievement  | user_id(intra id)   | 업적 리스트 요청         | 200                    | {achiv_name: string, achiv_cmt: string}   | TB_UA03M              |
+| No   | request - HTTP method, Endpoint | request - parameter | description      | response - status code | response - data                              | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ---------------- | ---------------------- | -------------------------------------------- | --------------------- |
+| 1    | GET /users/profile/record-count | user_id             | 전적, 래더 점수  | 200                    | win: number, lose: number, ladder: number    | TB_GM02S              |
+| 2    | GET /users/profile/records      | user_id             | 게임 전적 리스트 | 200                    | {victory: boolean, opposite: string}, ...    | TB_GM01D              |
+| 3    | GET /users/profile/achievements | user_id             | 업적 리스트      | 200                    | {achiv_name: string, achiv_cmt: string}, ... | TB_UA03M              |
 
 
 
@@ -220,16 +203,13 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-PF003.png" style="zoom:150%;" />
 
-| No   | attribute              | event                              | Request             | Response               | route |
-| ---- | ---------------------- | ---------------------------------- | ------------------- | ---------------------- | ----- |
-| 1    | 닉네임 입력 폼         | 수정할 닉네임을 입력               | 닉네임 입력         | 닉네임 중복 여부       | -     |
-| 2    | 이미지 업로드 버튼     | 탐색기/finder 호출                 | -                   | -                      | -     |
-| 3    | 기본 프로필 이미지 7종 | 기본 프로필 이미지를 로드          | -                   | 기본 프로필 이미지 7종 | -     |
-| 4    | 수정 버튼              | 수정사항을 적용할 것을 서버에 요청 | 닉네임, 이미지 파일 | -                      | PF002 |
-|      |                        |                                    |                     |                        |       |
 
-- 이미지 크기는 200KB로 제한, png/jpg/jpeg/gif 파일로 제한한다.
-- 닉네임 검증이 안 되었거나, 위의 조건에 부합하지 않으면 수정할 수 없도록 설정한다.
+
+| No   | request - HTTP method, Endpoint | request - parameter     | description             | response - status code              | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ----------------------- | ----------------------- | ----------------------------------- | --------------- | --------------------- |
+| 1    | POST /users/profile/updating    | nickname, profile_image | 프로필 수정 데이터 전송 | 201, 403(닉네임 중복, 이미지 허용x) |                 |                       |
+
+- websocket으로 닉네임 중복 검증 할 수 있겠지만 아직 반영하지 않음.
 
 
 
@@ -237,14 +217,15 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-PF004.png" style="zoom:150%;" />
 
-| No   | attribute      | event                | Request     | Response         | route |
-| ---- | -------------- | -------------------- | ----------- | ---------------- | ----- |
-| 1    | 닉네임 입력 폼 | 수정할 닉네임을 입력 | 닉네임 입력 | 닉네임 중복 여부 | -     |
-|      |                |                      |             |                  |       |
 
-- 미구현
 
-  
+| No   | request - HTTP method, Endpoint | request - parameter | description   | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ------------- | ---------------------- | --------------- | --------------------- |
+| 1    | PUT /users/auth/twofactor       |                     | 2차 인증 설정 | 201                    |                 |                       |
+
+- 2차 인증 설정 부분은 아직 구체적으로 나오지 않아서 간략히 작성함
+
+
 
 # 채팅
 
@@ -254,19 +235,14 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-CH001-1.png" style="zoom:150%;" />
 
-| No   | attribute        | event                           | Request             | Response                                                     | route |
-| ---- | ---------------- | ------------------------------- | ------------------- | ------------------------------------------------------------ | ----- |
-| 1    | 채팅 목록        | 참여할 수 있는 채팅 목록을 로드 | 내 닉네임           | <채팅방> 목록<br />- <채팅방> : 채팅방 이름, 채팅방 owner, 채팅방 유형, 채팅방 현재 인원/최대 인원, 생성 시간, (채팅방 입장 가능 여부?) | -     |
-| 2    | 공개 채팅방      | 공개 채팅방에 입장              | 내 닉네임           | 채팅방 번호, 채팅방 입장 가능 여부                           | CH003 |
-| 3    | 비공개 채팅방    | 비밀번호 입력 레이어팝업을 호출 | -                   | -                                                            | CH001 |
-| 4    | 비밀번호 입력 폼 | 비밀번호를 입력하고 폼을 제출   | 내 닉네임, 비밀번호 | 채팅방 번호, 채팅방 입장 가능 여부                           | CH003 |
-| 5    | 채팅방 생성 버튼 | 채팅방 생성 레이어팝업 호출     | -                   | -                                                            | CH002 |
-|      |                  |                                 |                     |                                                              |       |
 
-- DM(private) 채팅방을 제외하기 위해서 내 닉네임을 서버로 전송합니다.
-- 생성 시간 등 전체적인 목록 정렬은 신경쓰지 않아도 되는가?
-- 채팅방에서 차단 목록에 추가된 유저는 채팅방에 입장하려고 하면 입장 가능 여부를 확인하고 방에 입장한다.
-  - 다른 방법이 있는가? 서버로 보내기 전에 프론트에서 채팅방 목록을 받을 때 입장 가능 여부를 같이 보내오는 방법
+
+| No   | request - HTTP method, Endpoint | request - parameter | description                                       | response - status code | response - data                                              | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ------------------------------------------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
+| 1    | GET /chats/rooms-list           |                     | 채팅방 목록                                       | 200                    | {chatroom_id: string, chatroom_name: string, owner: string, type: string, curr_user_count: number, max_user_count: number}, ... |                       |
+| 2    | POST /chats/entrance            | password: string    | 채팅방 입장 (public일 경우에 password 검증 안 함) | 201, 403(입장 불가)    |                                                              |                       |
+
+- 채팅방 입장 승인 후에 채팅방 안의 데이터들은 websocket을 이용
 
 
 
@@ -274,14 +250,13 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-CH002.png" style="zoom:150%;" />
 
-| No   | attribute           | event                                   | Request                                            | Response    | route |
-| ---- | ------------------- | --------------------------------------- | -------------------------------------------------- | ----------- | ----- |
-| 1    | 채팅방 제목 폼      | 채팅방 제목 입력                        | -                                                  | -           | -     |
-| 2    | 공개 여부 콤보 박스 | 공개 여부 입력                          | -                                                  | -           | -     |
-| 3    | 비밀번호 입력 폼    | 채팅방 비밀번호 입력(공개일때만 활성화) | -                                                  | -           | -     |
-| 4    | 확인 버튼           | 채팅방 생성                             | 채팅방 제목, 채팅방 공개 여부, 비밀번호, 내 닉네임 | 채팅방 번호 | CH003 |
-|      |                     |                                         |                                                    |             |       |
 
+
+| No   | request - HTTP method, Endpoint | request - parameter                                          | description | response - status code | response - data     | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------------------------------------------------ | ----------- | ---------------------- | ------------------- | --------------------- |
+| 1    | POST /chats/creating-room       | chatroom_name: string, chatroom_type: string, password: string | 채팅방 생성 | 201, 403(형식 제한)    | chatroom_id: string |                       |
+
+- 채팅방 입장 후에 채팅방 안의 데이터들은 websocket을 이용 (유저 목록, 유저 권한, 메시지 등)
 - 채팅방 제목은 최대 20자로 제한한다.
 - 채팅방 비밀번호는 최대 10자로 제한한다.
 
@@ -291,20 +266,13 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-CH003.png" style="zoom:150%;" />
 
-| No   | attribute             | event                            | Request                | Response                  | route |
-| ---- | --------------------- | -------------------------------- | ---------------------- | ------------------------- | ----- |
-| 1    | 채팅방 정보           | 채팅방 정보 로드                 | 채팅방 번호            | 채팅방 제목, 채팅방 owner | -     |
-| 2    | 채팅                  | 소켓을 통해 채팅을 업데이트      | -                      | -                         | -     |
-| 3    | 메시지 입력 폼        | 채팅 메시지를 입력하고 전송      | 메시지 입력 문자열     | -                         | -     |
-| 4    | 유저 프로필 버튼      | 유저 프로필 레이어팝업을 호출    | -                      | -                         | MN003 |
-| 5    | 유저 목록 버튼        | 유저 목록 레이어팝업 호출        | -                      | -                         | CH007 |
-| 6    | 채팅방 정보 수정 버튼 | 채팅방 정보 수정 레이어팝업 호출 | -                      | -                         | CH006 |
-| 7    | 닫기 버튼             | 채팅방에서 퇴장 및 대기실로 복귀 | 내 닉네임, 채팅방 번호 | -                         | CH001 |
-|      |                       |                                  |                        |                           |       |
 
-- 채팅방 정보 수정 버튼은 채팅방 admin 이상의 권한이 필요하다.
-- 채팅 owner가 채팅방에서 퇴장할 시, 1) 가장 오래된 admin 2) 가장 오래된 일반 유저 우선순위로 넘긴다.
-  - 채팅방을 나갈 때, api를 호출해야 하는가?
+
+| No   | request - HTTP method, Endpoint | request - parameter | description | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ----------- | ---------------------- | --------------- | --------------------- |
+|      |                                 |                     |             |                        |                 |                       |
+
+- 채팅방 입장 후에 채팅방 안의 데이터들은 websocket을 이용
 
 
 
@@ -312,16 +280,11 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-CH006.png" style="zoom:150%;" />
 
-| No   | attribute           | event                                   | Request                                                      | Response    | route |
-| ---- | ------------------- | --------------------------------------- | ------------------------------------------------------------ | ----------- | ----- |
-| 1    | 채팅방 제목 폼      | 채팅방 제목 입력                        | -                                                            | -           | -     |
-| 2    | 공개 여부 콤보 박스 | 공개 여부 입력                          | -                                                            | -           | -     |
-| 3    | 비밀번호 입력 폼    | 채팅방 비밀번호 입력(공개일때만 활성화) | -                                                            | -           | -     |
-| 4    | 확인 버튼           | 채팅방 정보 수정                        | 채팅방 번호, 채팅방 제목, 채팅방 공개 여부, 비밀번호, 내 닉네임 | 채팅방 번호 | CH003 |
-|      |                     |                                         |                                                              |             |       |
 
-- 채팅방 제목은 최대 20자로 제한한다.
-- 채팅방 비밀번호는 최대 10자로 제한한다.
+
+| No   | request - HTTP method, Endpoint | request - parameter                                          | description      | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------------------------------------------------ | ---------------- | ---------------------- | --------------- | --------------------- |
+| 1    | PUT /chats/changing-room        | chatroom_id: number, chatroom_name: string, chatroom_type: string, password: string | 채팅방 정보 수정 | 201, 403(권한 없음)    |                 |                       |
 
 
 
@@ -333,32 +296,20 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-CH007-2.png" style="zoom:150%;" />
 
-| No   | attribute             | event                                                        | Request                  | Response                                                     | route |
-| ---- | --------------------- | ------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------ | ----- |
-| 1    | 유저 목록 콤보 박스   | 유저 목록/차단 목록 중 선택                                  | 채팅방 번호              | <유저> 목록<br />- <유저> : 닉네임, 이미지, 유저 정보(owner, admin, normal), 입장 시간 | -     |
-| 2    | 채팅방 내보내기 버튼  | 특정 유저를 채팅방에서 추방. 현재 유저 목록에서는 제거       | 채팅방 번호, 유저 닉네임 | -                                                            | -     |
-| 3    | 채팅방 차단 버튼      | 특정 유저를 채팅방 차단 목록에 추가. 현재 유저 목록에서는 제거 | 채팅방 번호, 유저 닉네임 | -                                                            | -     |
-| 4    | 채팅방 벙어리 버튼    | 특정 유저를 30초 동안 채팅을 하지 못하게 함                  | 채팅방 번호, 유저 닉네임 | -                                                            | -     |
-| 5    | 권리자 권한 부여 버튼 | 특정 유저에게 관리자 권한을 부여                             | 채팅방 번호, 유저 닉네임 | -                                                            | -     |
-| 6    | 대결 신청 버튼        | 일반 게임 화면으로 이동                                      | -                        | -                                                            | GM000 |
-| 7    | 정보 보기 버튼        | 해당 유저 프로필 레이어팝업을 호출                           | -                        | -                                                            | MN003 |
-| 8    | 닫기 버튼             | 채팅방으로 되돌아감                                          | -                        | -                                                            | CH006 |
-|      |                       |                                                              |                          |                                                              |       |
-
-- 채팅방 유저 관리 상세
-  - 채팅방 내보내기 : 일시적으로 내보내기, 추방된 유저는 다시 접속할 수 있음
-  - 채팅방 차단  : 채팅방 차단 목록에 추가. 차단된 유저는 다시 접속하지 못함
-  - 채팅방 벙어리 : 30초 동안 채팅을 쳐도 다른 사람들에게 채팅이 전달되지 않음.
-- 권한 별 메뉴 목록
-  - **owner/admin -> normal** : **채팅창 내보내기/차단/벙어리/관리자 권한 부여**, 정보 보기, 대결 신청
-  - owner/admin -> owner/admin : 정보 보기, 대결 신청
-  - normal -> owner/admin : 정보 보기, 대결 신청
-  - normal -> normal : 정보 보기, 대결 신청
-
-- 대결 신청 버튼
-  - 신청한 유저는 일반 게임 화면으로 이동하고, 신청받은 유저는 신청 대결 메시지를 받음
 
 
+| No   | request - HTTP method, Endpoint | request - parameter                             | description      | response - status code | response - data                           | Table-Column-Variable |
+| ---- | ------------------------------- | ----------------------------------------------- | ---------------- | ---------------------- | ----------------------------------------- | --------------------- |
+| 1    | GET /chats/room/users-list      | chatroom_id: string                             | 채팅방 유저목록  | 201, 403(권한 없음)    | {user_id: string, user_auth: string}, ... |                       |
+| 2    | PUT /chats/room/kick            | chatroom_id: string, user_id_to_kick: string    | 채팅방 내보내기  | 201, 403(권한 없음)    |                                           |                       |
+| 3    | POST /chats/room/ban            | chatroom_id: string, user_id_to_ban: string     | 채팅방 차단      | 201, 403(권한 없음)    |                                           |                       |
+| 4    | POST /chats/room/mute           | chatroom_id: string, user_id_to_mute: string    | 벙어리 적용      | 201, 403(권한 없음)    |                                           |                       |
+| 5    | POST /chats/room/empowerment    | chatroom_id: string, user_id_to_empower: string | 관리자 권한 부여 | 201, 403(권한 없음)    |                                           |                       |
+| 6    | POST /chats/room/game-request   | chatroom_id: string, user_id_to_game: string    | 대결 신청        | 201                    |                                           |                       |
+
+- No1에서 현재 벙어리 여부 데이터를 보내지 않은 이유: 현재 벙어리 상태여도 다시 벙어리 시키면 시간 리셋 가능하게 하도록
+
+- 대다수가 websocket을 통한 ws 프로토콜을 이용하는 것으로 바뀔 가능성 높음
 
 
 
@@ -368,18 +319,12 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-CH008-1.png" style="zoom:150%;" />
 
-| No   | attribute        | event                                                        | Request                  | Response | route |
-| ---- | ---------------- | ------------------------------------------------------------ | ------------------------ | -------- | ----- |
-| 1    | 채팅방 차단 해제 | 특정 유저를 채팅방 차단 목록에서 제거. 현재 유저 목록에서에 추가 | 채팅방 번호, 유저 닉네임 | -        | -     |
-| 2    | 정보 보기 버튼   | 해당 유저 프로필 레이어팝업을 호출                           | -                        | -        | MN003 |
-| 3    | 닫기 버튼        | 채팅방으로 되돌아감                                          | -                        | -        | CH006 |
-|      |                  |                                                              |                          |          |       |
 
-- 권한 별 메뉴 목록
-  - **owner/admin -> normal** : **채팅방 차단 해제**, 정보 보기
-  - owner/admin -> owner/admin : 정보 보기
-  - normal -> owner/admin : 정보 보기
-  - normal -> normal : 정보 보기
+
+| No   | request - HTTP method, Endpoint | request - parameter                         | description          | response - status code | response - data                      | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------------------------------- | -------------------- | ---------------------- | ------------------------------------ | --------------------- |
+| 1    | GET /chats/room/bans-list       | chatroom_id: string                         | 채팅방 차단 유저목록 | 200                    | {user_id: string, auth: string}, ... |                       |
+| 2    | PUT /chats/room/ban-removal     | chatroom_id: string, userid_to_free: string | 채팅방 차단 해제     | 201                    |                                      |                       |
 
 
 
