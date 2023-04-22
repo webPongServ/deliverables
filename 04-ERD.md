@@ -54,16 +54,16 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 - TB_UA01M
 
-|      | key  | colunm id      | column name            | null     | data type    | domain                 | comment          | default         |
-| ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ---------------------- | ---------------- | --------------- |
-| 1    | k    | USER_ID        | user id                | not null | varchar(8)   | 넘으면 가입불가 로직   |                  |                 |
-| 2    | u    | NICKNAME       | 닉네임                 | not null | varchar(8)   | 1~8 글자(숫자영문한글) |                  | USER_ID         |
-| 3    |      | TWOFACTOR      | 투펙터여부             | not null | boolean      |                        | 42intra 검증컬럼 |                 |
-| 4    |      | TWOFACTOR_DATA | 투벡터데이터           |          | varchar(50)  |                        | 42intra 검증컬럼 |                 |
-| 5    |      | IMG_PATH       | 이미지경로             | not null | varchar(200) |                        |                  | img/default.png |
-| 6    |      | DEL_TF         | 삭제여부               | not null | boolean      | 삭제:true              |                  | false           |
-| 7    |      | FRST_DTTM      | 최초 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
-| 8    |      | LAST_DTTM      | 최종 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
+|      | key  | colunm id     | column name            | null     | data type    | domain                 | comment          | default         |
+| ---- | ---- | ------------- | ---------------------- | -------- | ------------ | ---------------------- | ---------------- | --------------- |
+| 1    | k    | USER_ID       | user id                | not null | varchar(8)   | 넘으면 가입불가 로직   |                  |                 |
+| 2    | u    | NICKNAME      | 닉네임                 | not null | varchar(8)   | 1~8 글자(숫자영문한글) |                  | USER_ID         |
+| 3    |      | TWOFACTOR_TF  | 투펙터여부             | not null | boolean      |                        | 42intra 검증컬럼 |                 |
+| 4    |      | TWOFACTOR_KEY | 투벡터데이터           |          | varchar(64)  |                        | 42intra 검증컬럼 |                 |
+| 5    |      | IMG_PATH      | 이미지경로             | not null | varchar(200) |                        |                  | img/default.png |
+| 6    |      | DEL_TF        | 삭제여부               | not null | boolean      | 삭제:true              |                  | false           |
+| 7    |      | FRST_DTTM     | 최초 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
+| 8    |      | LAST_DTTM     | 최종 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
 
 - 회원가입에 의해서 데이터가 추가된다.
 - 최초 회원가입 시 닉네임은 intra_id 로 대체한다.
@@ -177,6 +177,15 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
+- NOTICE: 게임방 이름 필요할 듯
+  - Ladder - 게임방 이름 null로
+  - string으로 저장
+- NOTICE: 게임 오너도 넣어야한
+  - Ladder - 게임 오너 null로
+  - string으로 저장
+
+
+
 - TB_GM01D  게임상세
   - 게임 1판당 플레이어의 속성을 관리하는 테이블이다.
 
@@ -200,6 +209,8 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 - 게임 입장 시 데이터가 추가된다.
 
 
+
+- NOTE: 상대 user_id를 string 형태로 저장 필요
 
 
 
@@ -298,6 +309,15 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 | 7    |      | DEL_TF       | 삭제여부               | not null | boolean      | 삭제:true                            |                  | false                           |
 | 8    |      | FRST_DTTM    | 최초 입력 연월일시분초 | not null | timestamp(6) |                                      |                  | now()                           |
 | 9    |      | LAST_DTTM    | 최종 입력 연월일시분초 | not null | timestamp(6) |                                      |                  | now()                           |
+
+- Current_user count 필요할 듯
+- 생성시간
+
+
+
+- NOTICE: 401을 의도적인 상황에서도 써도되는가
+
+- 에러 메시지에 정보를 담아서 보내기
 
 
 
