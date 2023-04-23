@@ -113,12 +113,9 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
-| No   | request - HTTP method, Endpoint | request - parameter | description          | response - status code | response - data                    | Table-Column-Variable |
-| ---- | ------------------------------- | ------------------- | -------------------- | ---------------------- | ---------------------------------- | --------------------- |
-| 1    | GET /users/friends              |                     | 친구목록 리스트 요청 | 200                    | user_name, ...                     | TB_UA02L              |
-|      |                                 |                     |                      |                        |                                    |                       |
-| 3    | GET /chats/rooms                |                     | 채팅방 리스트 요청   | 200                    | {chatroom_name, owner, count}, ... | TB_CH01L              |
-|      |                                 |                     |                      |                        |                                    |                       |
+| No   | request - HTTP method, Endpoint | request - parameter | description          | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | -------------------- | ---------------------- | --------------- | --------------------- |
+| 1    | GET /users/friends              |                     | 친구목록 리스트 요청 | 200                    | user_name, ...  | TB_UA02L              |
 
 - 게임방과 채팅방 목록 데이터는 문서 아래에 각 항목에서 명세함
 - 친구 목록을 HTTP로 받은 이후부터 접속 상태에 관한 데이터는 websocket을 이용해서 보낼 예정
@@ -236,10 +233,10 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
-| No   | request - HTTP method, Endpoint | request - parameter | description                                       | response - status code | response - data                                              | Table-Column-Variable |
-| ---- | ------------------------------- | ------------------- | ------------------------------------------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
-| 1    | GET /chats/rooms                |                     | 채팅방 리스트                                     | 200                    | {<br />chatroomId: string, <br />title: string, <br />owner: string, <br />type: string, <br />current: number, <br />max: number<br />}, ... | TB_CH01L              |
-| 2    | POST /chats/entrance            | password: string    | 채팅방 입장 (public일 경우에 password 검증 안 함) | 201, 403(입장 불가)    |                                                              |                       |
+| No   | request - HTTP method, Endpoint | request - parameter                 | description                                       | response - status code | response - data                                              | Table-Column-Variable |
+| ---- | ------------------------------- | ----------------------------------- | ------------------------------------------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
+| 1    | GET /chats/rooms                |                                     | 채팅방 리스트                                     | 200                    | {<br />chatroomId: string, <br />title: string, <br />owner: string, <br />type: string, <br />current: number, <br />max: number<br />}, ... | TB_CH01L              |
+| 2    | POST /chats/entrance            | chatroomId:string, password: string | 채팅방 입장 (public일 경우에 password 검증 안 함) | 201, 403(입장 불가)    |                                                              |                       |
 
 - 채팅방 입장 승인 후에 채팅방 안의 데이터들은 websocket을 이용
 
@@ -306,7 +303,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter                                          | description      | response - status code | response - data | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------------------------------------------------ | ---------------- | ---------------------- | --------------- | --------------------- |
-| 1    | PATCH /chats/edit               | chatroom_id: number, chatroom_name: string, chatroom_type: string, password: string | 채팅방 정보 수정 | 201, 403(권한 없음)    |                 |                       |
+| 1    | PATCH /chats/edit               | chatroom_id: string, chatroom_name: string, chatroom_type: string, password: string | 채팅방 정보 수정 | 201, 403(권한 없음)    |                 |                       |
 
 
 
