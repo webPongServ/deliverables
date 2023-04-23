@@ -113,15 +113,15 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
-| No   | request - HTTP method, Endpoint | request - parameter | description              | response - status code | response - data                    | Table-Column-Variable |
-| ---- | ------------------------------- | ------------------- | ------------------------ | ---------------------- | ---------------------------------- | --------------------- |
-| 1    | GET /users/friends              |                     | 친구목록 리스트 요청     | 200                    | user_name, ...                     | TB_UA02L              |
-| 2    | GET /games/rooms                |                     | 게임방(일반) 리스트 요청 | 200                    | {gameroom_name, owner}, ...        | TB_GM01L              |
-| 3    | GET /chats/rooms                |                     | 채팅방 리스트 요청       | 200                    | {chatroom_name, owner, count}, ... | TB_CH01L              |
-|      |                                 |                     |                          |                        |                                    |                       |
+| No   | request - HTTP method, Endpoint | request - parameter | description          | response - status code | response - data                    | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | -------------------- | ---------------------- | ---------------------------------- | --------------------- |
+| 1    | GET /users/friends              |                     | 친구목록 리스트 요청 | 200                    | user_name, ...                     | TB_UA02L              |
+|      |                                 |                     |                      |                        |                                    |                       |
+| 3    | GET /chats/rooms                |                     | 채팅방 리스트 요청   | 200                    | {chatroom_name, owner, count}, ... | TB_CH01L              |
+|      |                                 |                     |                      |                        |                                    |                       |
 
-- 5초마다 api 새로고침(네이버 스포츠 댓글 새로고침)
-
+- 게임방과 채팅방 목록 데이터는 문서 아래에 각 항목에서 명세함
+- 친구 목록을 HTTP로 받은 이후부터 접속 상태에 관한 데이터는 websocket을 이용해서 보낼 예정
 - Example
   - {chanhyle, susong, seongtki, mgo, ...}
 
@@ -238,10 +238,33 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter | description                                       | response - status code | response - data                                              | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------- | ------------------------------------------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
-| 1    | GET /chats/rooms-list           |                     | 채팅방 목록                                       | 200                    | {chatroom_id: string, chatroom_name: string, owner: string, type: string, curr_user_count: number, max_user_count: number}, ... |                       |
+| 1    | GET /chats/rooms                |                     | 채팅방 리스트                                     | 200                    | {<br />chatroomId: string, <br />title: string, <br />owner: string, <br />type: string, <br />current: number, <br />max: number<br />}, ... | TB_CH01L              |
 | 2    | POST /chats/entrance            | password: string    | 채팅방 입장 (public일 경우에 password 검증 안 함) | 201, 403(입장 불가)    |                                                              |                       |
 
 - 채팅방 입장 승인 후에 채팅방 안의 데이터들은 websocket을 이용
+
+- Example - 채팅 대기방 필요 데이터
+
+```json
+{
+    {
+      chatroomId: "202304230001",
+      title: "이기면 100만원~",
+      owner: "noname_12",
+      type: "public",
+      current: 4,
+      max: 5,
+    },
+    {
+      chatroomId: "202304230002",
+      title: "mgo님의 채팅방",
+      owner: "mgo",
+      type: "protected",
+      current: 4,
+      max: 10,
+    },
+}
+```
 
 
 
@@ -335,9 +358,9 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
-| No   | request - HTTP method, Endpoint | request - parameter | description   | response - status code | response - data                                              | Table-Column-Variable |
-| ---- | ------------------------------- | ------------------- | ------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
-| 1    | GET /games/normal/rooms         |                     | 게임방 리스트 | 200                    | {gameroom_id: string, gameroom_name: string, owner: string}, ... |                       |
+| No   | request - HTTP method, Endpoint | request - parameter | description         | response - status code | response - data                                              | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ------------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
+| 1    | GET /games/normal/rooms         |                     | 게임방(일반) 리스트 | 200                    | {gameroom_id: string, gameroom_name: string, owner: string}, ... | TB_GM01L              |
 
 
 
