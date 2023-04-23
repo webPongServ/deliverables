@@ -52,8 +52,6 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 # 로그인
 
-
-
 ## 42seoul 로그인(LG001)
 
 <img src="/Users/refigo/github-repository/webPongServ/deliverables/img/03-LG001.png" style="zoom:150%;" />
@@ -91,15 +89,15 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
-| No   | request - HTTP method, Endpoint | request - parameter | description                           | response - status code | response - data | Table-Column-Variable |
-| ---- | ------------------------------- | ------------------- | ------------------------------------- | ---------------------- | --------------- | --------------------- |
-| 1    | POST /users/login/twofactor     | two factor_pw       | 42 인트라 로그인 페이지(/main)로 이동 | 201                    | case            |                       |
+| No   | request - HTTP method, Endpoint | request - parameter | description | response - status code | response - data | Table-Column-Variable |
+| ---- | ------------------------------- | ------------------- | ----------- | ---------------------- | --------------- | --------------------- |
+| 1    | POST /users/login/twofactor     | two factor_pw       | 2차 인증    | 201, 401               | case            |                       |
 
 - response - data에서 case에 대한 정보를 넘겨준 이유: 백엔드에서 case를 넘겨주지 않으려면 is_twofactor와 is_already_login 상태 정보를 프론트에서 계속 들고 있어야 한다. 하지만 페이지가 새로고침될 경우, local storage 등에 저장하지 않는 이상 휘발된다. 그러므로 페이지가 새로고침되어도 2차 인증 
 
 
 
-#### # 3차 인증(LG003)
+## 기존 세션 종료 유무 (LG003)
 
 
 
@@ -117,9 +115,9 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter | description              | response - status code | response - data                    | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------- | ------------------------ | ---------------------- | ---------------------------------- | --------------------- |
-| 1    | GET /users/friends-list         |                     | 친구목록 리스트 요청     | 200                    | user_name, ...                     | TB_UA02L              |
-| 2    | GET /games/rooms-list           |                     | 게임방(일반) 리스트 요청 | 200                    | {gameroom_name, owner}, ...        | TB_GM01L              |
-| 3    | GET /chats/rooms-list           |                     | 채팅방 리스트 요청       | 200                    | {chatroom_name, owner, count}, ... | TB_CH01L              |
+| 1    | GET /users/friends              |                     | 친구목록 리스트 요청     | 200                    | user_name, ...                     | TB_UA02L              |
+| 2    | GET /games/rooms                |                     | 게임방(일반) 리스트 요청 | 200                    | {gameroom_name, owner}, ...        | TB_GM01L              |
+| 3    | GET /chats/rooms                |                     | 채팅방 리스트 요청       | 200                    | {chatroom_name, owner, count}, ... | TB_CH01L              |
 |      |                                 |                     |                          |                        |                                    |                       |
 
 - 5초마다 api 새로고침(네이버 스포츠 댓글 새로고침)
@@ -173,7 +171,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter | description | response - status code | response - data | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------- | ----------- | ---------------------- | --------------- | --------------------- |
-| 1    | PUT /users/logout               |                     | 로그아웃    | 201                    |                 |                       |
+| 1    | PATCH /users/logout             |                     | 로그아웃    | 201                    |                 |                       |
 
 
 
@@ -191,9 +189,9 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter | description      | response - status code | response - data                              | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------- | ---------------- | ---------------------- | -------------------------------------------- | --------------------- |
-| 1    | GET /users/profile/record-count | user_id             | 전적, 래더 점수  | 200                    | win: number, lose: number, ladder: number    | TB_GM02S              |
-| 2    | GET /users/profile/records      | user_id             | 게임 전적 리스트 | 200                    | {victory: boolean, opposite: string}, ...    | TB_GM01D              |
-| 3    | GET /users/profile/achievements | user_id             | 업적 리스트      | 200                    | {achiv_name: string, achiv_cmt: string}, ... | TB_UA03M              |
+| 1    | GET /users/record               | user_id             | 전적, 래더 점수  | 200                    | win: number, lose: number, ladder: number    | TB_GM02S              |
+| 2    | GET /users/history              | user_id             | 게임 전적 리스트 | 200                    | {victory: boolean, opposite: string}, ...    | TB_GM01D              |
+| 3    | GET /users/achievements         | user_id             | 업적 리스트      | 200                    | {achiv_name: string, achiv_cmt: string}, ... | TB_UA03M              |
 
 
 
@@ -208,6 +206,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 | No   | request - HTTP method, Endpoint | request - parameter     | description             | response - status code              | response - data | Table-Column-Variable |
 | ---- | ------------------------------- | ----------------------- | ----------------------- | ----------------------------------- | --------------- | --------------------- |
 | 1    | POST /users/profile/updating    | nickname, profile_image | 프로필 수정 데이터 전송 | 201, 403(닉네임 중복, 이미지 허용x) |                 |                       |
+| 2    | GET /users/namecheck            | nickname                | 닉네임 중복 검증        | 200                                 |                 |                       |
 
 - websocket으로 닉네임 중복 검증 할 수 있겠지만 아직 반영하지 않음.
 
@@ -221,7 +220,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter | description   | response - status code | response - data | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------- | ------------- | ---------------------- | --------------- | --------------------- |
-| 1    | PUT /users/auth/twofactor       |                     | 2차 인증 설정 | 201                    |                 |                       |
+| 1    | PATCH /users/auth/twofactor     |                     | 2차 인증 설정 | 201                    |                 |                       |
 
 - 2차 인증 설정 부분은 아직 구체적으로 나오지 않아서 간략히 작성함
 
@@ -254,7 +253,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter                                          | description | response - status code | response - data     | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------------------------------------------------ | ----------- | ---------------------- | ------------------- | --------------------- |
-| 1    | POST /chats/creating-room       | chatroom_name: string, chatroom_type: string, password: string | 채팅방 생성 | 201, 403(형식 제한)    | chatroom_id: string |                       |
+| 1    | POST /chats/create              | chatroom_name: string, chatroom_type: string, password: string | 채팅방 생성 | 201, 403(형식 제한)    | chatroom_id: string |                       |
 
 - 채팅방 입장 후에 채팅방 안의 데이터들은 websocket을 이용 (유저 목록, 유저 권한, 메시지 등)
 - 채팅방 제목은 최대 20자로 제한한다.
@@ -284,7 +283,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter                                          | description      | response - status code | response - data | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------------------------------------------------ | ---------------- | ---------------------- | --------------- | --------------------- |
-| 1    | PUT /chats/changing-room        | chatroom_id: number, chatroom_name: string, chatroom_type: string, password: string | 채팅방 정보 수정 | 201, 403(권한 없음)    |                 |                       |
+| 1    | PATCH /chats/edit               | chatroom_id: number, chatroom_name: string, chatroom_type: string, password: string | 채팅방 정보 수정 | 201, 403(권한 없음)    |                 |                       |
 
 
 
@@ -300,12 +299,12 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter                             | description      | response - status code | response - data                           | Table-Column-Variable |
 | ---- | ------------------------------- | ----------------------------------------------- | ---------------- | ---------------------- | ----------------------------------------- | --------------------- |
-| 1    | GET /chats/room/users-list      | chatroom_id: string                             | 채팅방 유저목록  | 201, 403(권한 없음)    | {user_id: string, user_auth: string}, ... |                       |
-| 2    | PUT /chats/room/kick            | chatroom_id: string, user_id_to_kick: string    | 채팅방 내보내기  | 201, 403(권한 없음)    |                                           |                       |
-| 3    | POST /chats/room/ban            | chatroom_id: string, user_id_to_ban: string     | 채팅방 차단      | 201, 403(권한 없음)    |                                           |                       |
-| 4    | POST /chats/room/mute           | chatroom_id: string, user_id_to_mute: string    | 벙어리 적용      | 201, 403(권한 없음)    |                                           |                       |
-| 5    | POST /chats/room/empowerment    | chatroom_id: string, user_id_to_empower: string | 관리자 권한 부여 | 201, 403(권한 없음)    |                                           |                       |
-| 6    | POST /chats/room/game-request   | chatroom_id: string, user_id_to_game: string    | 대결 신청        | 201                    |                                           |                       |
+| 1    | GET /chats/users                | chatroom_id: string                             | 채팅방 유저목록  | 201, 403(권한 없음)    | {user_id: string, user_auth: string}, ... |                       |
+| 2    | PUT /chats/kick                 | chatroom_id: string, user_id_to_kick: string    | 채팅방 내보내기  | 201, 403(권한 없음)    |                                           |                       |
+| 3    | POST /chats/ban                 | chatroom_id: string, user_id_to_ban: string     | 채팅방 차단      | 201, 403(권한 없음)    |                                           |                       |
+| 4    | POST /chats/mute                | chatroom_id: string, user_id_to_mute: string    | 벙어리 적용      | 201, 403(권한 없음)    |                                           |                       |
+| 5    | POST /chats/empowerment         | chatroom_id: string, user_id_to_empower: string | 관리자 권한 부여 | 201, 403(권한 없음)    |                                           |                       |
+| 6    | POST /chats/game-request        | chatroom_id: string, user_id_to_game: string    | 대결 신청        | 201                    |                                           |                       |
 
 - No1에서 현재 벙어리 여부 데이터를 보내지 않은 이유: 현재 벙어리 상태여도 다시 벙어리 시키면 시간 리셋 가능하게 하도록
 
@@ -323,8 +322,8 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter                         | description          | response - status code | response - data                      | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------------------------------- | -------------------- | ---------------------- | ------------------------------------ | --------------------- |
-| 1    | GET /chats/room/bans-list       | chatroom_id: string                         | 채팅방 차단 유저목록 | 200                    | {user_id: string, auth: string}, ... |                       |
-| 2    | PUT /chats/room/ban-removal     | chatroom_id: string, userid_to_free: string | 채팅방 차단 해제     | 201                    |                                      |                       |
+| 1    | GET /chats/bans                 | chatroom_id: string                         | 채팅방 차단 유저목록 | 200                    | {user_id: string, auth: string}, ... |                       |
+| 2    | PATCH /chats/ban-removal        | chatroom_id: string, userid_to_free: string | 채팅방 차단 해제     | 201                    |                                      |                       |
 
 
 
@@ -338,7 +337,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter | description   | response - status code | response - data                                              | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------- | ------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
-| 1    | GET /games/normal/room-list     |                     | 게임방 리스트 | 200                    | {gameroom_id: string, gameroom_name: string, owner: string}, ... |                       |
+| 1    | GET /games/normal/rooms         |                     | 게임방 리스트 | 200                    | {gameroom_id: string, gameroom_name: string, owner: string}, ... |                       |
 
 
 
@@ -364,7 +363,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter                                      | description    | response - status code | response - data     | Table-Column-Variable |
 | ---- | ------------------------------- | -------------------------------------------------------- | -------------- | ---------------------- | ------------------- | --------------------- |
-| 1    | POST /games/normal/creating     | gameroom_name: string, score: number, difficulty: string | 일반 게임 생성 | 201, 403               | gameroom_id: string |                       |
+| 1    | POST /games/normal/create       | gameroom_name: string, score: number, difficulty: string | 일반 게임 생성 | 201, 403               | gameroom_id: string |                       |
 
 - 게임방 입장 후에 websocket을 이용한 통신
 
@@ -392,7 +391,7 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 | No   | request - HTTP method, Endpoint | request - parameter                                          | description    | response - status code | response - data | Table-Column-Variable |
 | ---- | ------------------------------- | ------------------------------------------------------------ | -------------- | ---------------------- | --------------- | --------------------- |
-| 1    | PUT /games/normal/changing-info | gameroom_id: string, gameroom_name: string, score: number, difficulty: string | 일반 게임 수정 | 201, 403               |                 |                       |
+| 1    | PATCH /games/normal/info        | gameroom_id: string, gameroom_name: string, score: number, difficulty: string | 일반 게임 수정 | 201, 403               |                 |                       |
 
 
 
@@ -402,10 +401,10 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
-| No   | request - HTTP method, Endpoint  | request - parameter | description         | response - status code | response - data | Table-Column-Variable |
-| ---- | -------------------------------- | ------------------- | ------------------- | ---------------------- | --------------- | --------------------- |
-| 1    | POST /games/ladder/registration  |                     | 래더 게임 등록      | 201                    |                 |                       |
-| 2    | PUT /games/ladder/deregistration |                     | 래더 게임 등록 취소 | 201                    |                 |                       |
+| No   | request - HTTP method, Endpoint    | request - parameter | description         | response - status code | response - data | Table-Column-Variable |
+| ---- | ---------------------------------- | ------------------- | ------------------- | ---------------------- | --------------- | --------------------- |
+| 1    | POST /games/ladder/registration    |                     | 래더 게임 등록      | 201                    |                 |                       |
+| 2    | PATCH /games/ladder/deregistration |                     | 래더 게임 등록 취소 | 201                    |                 |                       |
 
 
 
@@ -439,7 +438,8 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 | 1    | GET /games/result               | gameroom_id: string | 게임 결과 화면 | 200                    | this_info: {game_result: string, game_type: string, user_score: number, opposite_user_id: string, opposite_user_score: number, result_llvl: number}, total_info: {cnt_vct: number, cnt_dft: number, llvl: number} |                       |
 
 - 게임방 입장 후에 websocket을 이용한 통신
-
+- NOTICE: 전적은 지울 예정
+- TODO: 래더 점수만 보내기
 
 
 
