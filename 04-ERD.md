@@ -105,7 +105,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 | ---- | ---- | ---------- | ---------------------- | -------- | ------------ | --------------- | ------- | ------- |
 | 1    | K, F | USER_ID    | user id                | not null |              |                 |         |         |
 | 2    | K    | FR_USER_ID | 친구 user id           | not null |              |                 |         |         |
-| 3    |      | ST_CD      | 상태코드               | not null |              | 01:등록,02:해제 |         |         |
+| 3    |      | ST_CD      | 상태코드               | not null | varcahr(2)   | 01:등록,02:해제 |         |         |
 | 4    |      | RSST_DTTM  | 등록일시               |          | timestamp(0) |                 |         |         |
 | 5    |      | RELE_DTTM  | 해제일시               |          | timestamp(0) |                 |         |         |
 | 6    |      | DEL_TF     | 삭제여부               | not null | boolean      | 삭제:true       |         | false   |
@@ -262,7 +262,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
-- TB_GM06L 레더대기내역
+- TB_GM04L 레더대기내역
   - 서버 스케쥴러에서 해당테이블을 참조하면서 게임매칭을 진행한다.
 
 |      | key  | colunm id      | column name            | null     | data type    | domain       | comment | default |
@@ -289,7 +289,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 |      | key  | colunm id    | column name            | null     | data type    | domain                               | comment          | default                         |
 | ---- | ---- | ------------ | ---------------------- | -------- | ------------ | ------------------------------------ | ---------------- | ------------------------------- |
-| 1    | k    | CHT_RM_ID    | chat room  id          | not null | varchar(12)  | YYYYMMDDNNNN                         |                  |                                 |
+| 1    | p    | CHT_RM_ID    | chat room  id          | not null | varchar(12)  | YYYYMMDDNNNN                         |                  |                                 |
 | 2    |      | CHT_RM_NM    | channel name           | not null | varchar(50)  |                                      |                  | TB_UA01M.USER_ID + ' 의 채팅방' |
 | 3    |      | CHT_RM_TYPE  | channel type           | not null | varchar(2)   | public: 01, protected:02, private:03 |                  | 01                              |
 | 4    |      | MAX_USER_CNT | Maximum people         | not null | Number       |                                      |                  | 5                               |
@@ -299,25 +299,27 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 | 8    |      | FRST_DTTM    | 최초 입력 연월일시분초 | not null | timestamp(6) |                                      |                  | now()                           |
 | 9    |      | LAST_DTTM    | 최종 입력 연월일시분초 | not null | timestamp(6) |                                      |                  | now()                           |
 
+- NOTICE: current user count는 TB_CH02L과 join을 이용
+
 
 
 - TB_CH02L
 
 |      | key  | colunm id      | column name            | null     | data type    | domain                                | comment | default           |
 | ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ------------------------------------- | ------- | ----------------- |
-| 1    | k    | CHT_RM_ID      | channel id             | not null | varchar(12)  | YYYYMMDDNNNN                          |         |                   |
-| 2    | k    | USER_ID        | user id                | not null | varchar(8)   |                                       |         |                   |
+| 1    | f, k | CHT_RM_ID      | channel id             | not null | varchar(12)  | YYYYMMDDNNNN                          |         |                   |
+| 2    | f, k | USER_ID        | user id                | not null | varchar(8)   |                                       |         |                   |
 | 3    |      | CHT_RM_AUTH    | authority              | not null | varchar(2)   | Owner:01, Administrator:02, Normal:03 |         |                   |
 | 4    |      | CHT_RM_JOIN_TF | existence              | not null | Boolean      | 채팅참여:true, 채팅미참여:false       |         | true              |
 | 5    |      | ENTRY_DTTM     | entry time             | not null | timestamp(0) |                                       |         | curr_timestamp(0) |
 | 6    |      | AUTH_CHG_DTTM  | change time            | not null | timestamp(0) |                                       |         | curr_timestamp(0) |
-| 7    |      | DEL_TF         | 삭제여부               | not null | boolean      | 삭제:true                             |         | false             |
+| 7    |      | DEL_TF         | 삭제여부               | not null | boolean      | 삭제:true/                            |         | false             |
 | 8    |      | FRST_DTTM      | 최초 입력 연월일시분초 | not null | timestamp(6) |                                       |         | now()             |
 | 9    |      | LAST_DTTM      | 최종 입력 연월일시분초 | not null | timestamp(6) |                                       |         | now()             |
 
 
 
-- TB_CH03D
+- TB_CH02D
 
 |      | key  | colunm id      | column name            | null     | data type    | domain                   | comment | default           |
 | ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ------------------------ | ------- | ----------------- |
@@ -334,7 +336,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
-- TB_CH04L
+- TB_CH03L
 
 |      | key  | colunm id | column name            | null     | data type     | domain       | comment                                            | default |
 | ---- | ---- | --------- | ---------------------- | -------- | ------------- | ------------ | -------------------------------------------------- | ------- |
@@ -348,13 +350,13 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
-- TB_CH05L  메세지차단유저내역
+- TB_CH04L  메세지차단유저내역
 
 |      | key  | colunm id     | column name            | null     | data type    | domain          | comment | default |
 | ---- | ---- | ------------- | ---------------------- | -------- | ------------ | --------------- | ------- | ------- |
-| 1    | K, F | USER_ID       | user id                | not null |              |                 |         |         |
-| 2    | K    | BLOCK_USER_ID | block user  id         | not null |              |                 |         |         |
-| 3    |      | ST_CD         | 상태코드               | not null |              | 01:등록,02:해제 |         |         |
+| 1    | K, F | USER_ID       | user id                | not null | varrcher(8)  |                 |         |         |
+| 2    | K    | BLOCK_USER_ID | block user  id         | not null | varrcher(8)  |                 |         |         |
+| 3    |      | ST_CD         | 상태코드               | not null | varchar(2)   | 01:등록,02:해제 |         |         |
 | 4    |      | RSST_DTTM     | 등록일시               |          | timestamp(0) |                 |         |         |
 | 5    |      | RELE_DTTM     | 해제일시               |          | timestamp(0) |                 |         |         |
 | 6    |      | DEL_TF        | 삭제여부               | not null | boolean      | 삭제:true       |         | false   |
