@@ -157,19 +157,19 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
   - 게임내역을 관리하는 테이블이다.
 
 
-|      | key  | colunm id     | column name            | null     | data type    | domain                                 | comment | default     |
-| ---- | ---- | ------------- | ---------------------- | -------- | ------------ | -------------------------------------- | ------- | ----------- |
-| 1    | K    | GM_SRNO       | 게임일련번호           | not null | vachar(12)   | YYYYMMDDNNNN, N : seq                  |         |             |
-| 2    |      | GM_STRT_DTTM  | 게임시작시간           |          | timestamp(0) |                                        |         |             |
-| 3    |      | GM_END_DTTM   | 게임종료시간           |          | timestamp(0) |                                        |         |             |
-| 4    |      | GM_TYPE       | 게임유형               | not null | varchar(2)   | 01:1v1, 02:ladder                      |         |             |
-| 5    |      | END_TYPE      | 종료유형               | not null | varchar(2)   | 01:게임중 02:점수, 03:닷지, 04: 미실행 |         | 01          |
-| 6    |      | TRGT_SCR      | 목표점수               | not null | number       |                                        |         | 5           |
-| 7    |      | BAR_LEN       | 바길이                 | not null | number       |                                        |         | 100         |
-| 8    |      | BGRD_IMG_PATH | 배경이미지경로         | not null | vachar(200)  |                                        |         | default.png |
-| 9    |      | DEL_TF        | 삭제여부               | not null | boolean      | 삭제:true                              |         | false       |
-| 10   |      | FRST_DTTM     | 최초 입력 연월일시분초 | not null | timestamp(6) |                                        |         | now()       |
-| 11   |      | LAST_DTTM     | 최종 입력 연월일시분초 | not null | timestamp(6) |                                        |         | now()       |
+|      | key  | colunm id     | column name                  | null     | data type    | domain                                 | comment | default     |
+| ---- | ---- | ------------- | ---------------------------- | -------- | ------------ | -------------------------------------- | ------- | ----------- |
+| 1    | K    | GM_SRNO       | 게임일련번호                 | not null | vachar(12)   | YYYYMMDDNNNN, N : seq                  |         |             |
+| 2    |      | GM_STRT_DTTM  | 게임시작시간                 |          | timestamp(0) |                                        |         |             |
+| 3    |      | GM_END_DTTM/  | 게임종료시간                 |          | timestamp(0) |                                        |         |             |
+| 4    |      | GM_TYPE       | 게임유형                     | not null | varchar(2)   | 01:1v1, 02:ladder                      |         |             |
+| 5    |      | END_TYPE      | 종료유형                     | not null | varchar(2)   | 01:게임중 02:점수, 03:닷지, 04: 미실행 |         | 01          |
+| 6    |      | TRGT_SCR      | 목표점수                     | not null | number       |                                        |         | 5           |
+| 7    |      | LV_DFCT       | 난이도 (level of difficulty) | not null | number       |                                        |         | 100         |
+| 8    |      | BGRD_IMG_PATH | 배경이미지경로               | not null | vachar(200)  |                                        |         | default.png |
+| 9    |      | DEL_TF        | 삭제여부                     | not null | boolean      | 삭제:true                              |         | false       |
+| 10   |      | FRST_DTTM     | 최초 입력 연월일시분초       | not null | timestamp(6) |                                        |         | now()       |
+| 11   |      | LAST_DTTM     | 최종 입력 연월일시분초       | not null | timestamp(6) |                                        |         | now()       |
 
 - 게임시작시간 : 플레이어2명 입장 시 now() 로 업데이트 된다.
 - 게임종료시간 : 게임종료 or 플레이어임의탈주일 경우 now()로 세팅된다.
