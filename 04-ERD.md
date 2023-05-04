@@ -224,7 +224,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
--   TB_GM05D 게임옵션상세
+-   TB_GM03D 게임옵션상세
     - 게임환경을 정의하는 테이블이다.
     - 게임 시작 시 해당테이블을 참고해야 한다.
 
