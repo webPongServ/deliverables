@@ -54,6 +54,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 - TB_UA01M
 
+
 |      | key  | colunm id      | column name            | null     | data type    | domain                 | comment          | default         |
 | ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ---------------------- | ---------------- | --------------- |
 | 1    | k    | USER_ID        | user id                | not null | varchar(8)   | 넘으면 가입불가 로직   |                  |                 |
@@ -64,6 +65,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 | 6    |      | DEL_TF         | 삭제여부               | not null | boolean      | 삭제:true              |                  | false           |
 | 7    |      | FRST_DTTM      | 최초 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
 | 8    |      | LAST_DTTM      | 최종 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
+
 
 - 회원가입에 의해서 데이터가 추가된다.
 - 최초 회원가입 시 닉네임은 intra_id 로 대체한다.
@@ -177,6 +179,17 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
+- NOTICE: 게임 난이도 필요 (column 바길이를 게임 난이도로 교체해도 좋을 듯)
+
+- NOTICE: 게임방 이름 필요할 듯
+  - Ladder - 게임방 이름 null로
+  - string으로 저장
+- NOTICE: 게임 오너도 넣어야한
+  - Ladder - 게임 오너 null로
+  - string으로 저장
+
+
+
 - TB_GM01D  게임상세
   - 게임 1판당 플레이어의 속성을 관리하는 테이블이다.
 
@@ -200,6 +213,8 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 - 게임 입장 시 데이터가 추가된다.
 
 
+
+- NOTE: 상대 user_id를 string 형태로 저장 필요
 
 
 
@@ -299,7 +314,15 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 | 8    |      | FRST_DTTM    | 최초 입력 연월일시분초 | not null | timestamp(6) |                                      |                  | now()                           |
 | 9    |      | LAST_DTTM    | 최종 입력 연월일시분초 | not null | timestamp(6) |                                      |                  | now()                           |
 
-- NOTICE: current user count는 TB_CH02L과 join을 이용
+
+- Current_user count 필요할 듯
+- 생성시간
+
+
+
+- NOTICE: 401을 의도적인 상황에서도 써도되는가
+
+- 에러 메시지에 정보를 담아서 보내기
 
 
 
