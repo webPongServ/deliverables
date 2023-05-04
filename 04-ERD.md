@@ -57,7 +57,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 |      | key  | colunm id      | column name            | null     | data type    | domain                 | comment          | default         |
 | ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ---------------------- | ---------------- | --------------- |
 | 1    | k    | USER_ID        | user id                | not null | varchar(8)   | 넘으면 가입불가 로직   |                  |                 |
-| 2    | u    | NICKNAME       | 닉네임                 | not null | varchar(8)   | 1~8 글자(숫자영문한글) |                  | USER_ID         |
+| 2    |      | NICKNAME       | 닉네임                 | not null | varchar(8)   | 1~8 글자(숫자영문한글) |     UNIQUE             | USER_ID         |
 | 3    |      | TWOFACTOR      | 투펙터여부             | not null | boolean      |                        | 42intra 검증컬럼 |                 |
 | 4    |      | TWOFACTOR_DATA | 투벡터데이터           |          | varchar(50)  |                        | 42intra 검증컬럼 |                 |
 | 5    |      | IMG_PATH       | 이미지경로             | not null | varchar(200) |                        |                  | img/default.png |
