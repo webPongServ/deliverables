@@ -233,10 +233,12 @@ https://www.figma.com/file/6Sid9eXwWlhJDzxtpyucAS/Untitled?node-id=0-1&t=zlpPaCf
 
 
 
+
 | No   | request - HTTP method, Endpoint | request - parameter                 | description                                       | response - status code | response - data                                              | Table-Column-Variable |
 | ---- | ------------------------------- | ----------------------------------- | ------------------------------------------------- | ---------------------- | ------------------------------------------------------------ | --------------------- |
 | 1    | GET /chats/rooms                |                                     | 채팅방 리스트                                     | 200                    | {<br />chatroomId: string, <br />title: string, <br />owner: string, <br />type: string, <br />current: number, <br />max: number<br />}, ... | TB_CH01L              |
 | 2    | POST /chats/entrance            | chatroomId:string, password: string | 채팅방 입장 (public일 경우에 password 검증 안 함) | 201, 403(입장 불가)    |                                                              |                       |
+
 
 - 채팅방 입장 승인 후에 채팅방 안의 데이터들은 websocket을 이용
 

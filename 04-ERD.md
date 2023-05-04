@@ -54,16 +54,18 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 - TB_UA01M
 
-|      | key  | colunm id     | column name            | null     | data type    | domain                 | comment          | default         |
-| ---- | ---- | ------------- | ---------------------- | -------- | ------------ | ---------------------- | ---------------- | --------------- |
-| 1    | k    | USER_ID       | user id                | not null | varchar(8)   | 넘으면 가입불가 로직   |                  |                 |
-| 2    | u    | NICKNAME      | 닉네임                 | not null | varchar(8)   | 1~8 글자(숫자영문한글) |                  | USER_ID         |
-| 3    |      | TWOFACTOR_TF  | 투펙터여부             | not null | boolean      |                        | 42intra 검증컬럼 |                 |
-| 4    |      | TWOFACTOR_KEY | 투벡터데이터           |          | varchar(64)  |                        | 42intra 검증컬럼 |                 |
-| 5    |      | IMG_PATH      | 이미지경로             | not null | varchar(200) |                        |                  | img/default.png |
-| 6    |      | DEL_TF        | 삭제여부               | not null | boolean      | 삭제:true              |                  | false           |
-| 7    |      | FRST_DTTM     | 최초 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
-| 8    |      | LAST_DTTM     | 최종 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
+
+|      | key  | colunm id      | column name            | null     | data type    | domain                 | comment          | default         |
+| ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ---------------------- | ---------------- | --------------- |
+| 1    | k    | USER_ID        | user id                | not null | varchar(8)   | 넘으면 가입불가 로직   |                  |                 |
+| 2    |      | NICKNAME       | 닉네임                 | not null | varchar(8)   | 1~8 글자(숫자영문한글) |     UNIQUE             | USER_ID         |
+| 3    |      | TWOFACTOR      | 투펙터여부             | not null | boolean      |                        | 42intra 검증컬럼 |                 |
+| 4    |      | TWOFACTOR_DATA | 투벡터데이터           |          | varchar(50)  |                        | 42intra 검증컬럼 |                 |
+| 5    |      | IMG_PATH       | 이미지경로             | not null | varchar(200) |                        |                  | img/default.png |
+| 6    |      | DEL_TF         | 삭제여부               | not null | boolean      | 삭제:true              |                  | false           |
+| 7    |      | FRST_DTTM      | 최초 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
+| 8    |      | LAST_DTTM      | 최종 입력 연월일시분초 | not null | timestamp(6) |                        |                  | now()           |
+
 
 - 회원가입에 의해서 데이터가 추가된다.
 - 최초 회원가입 시 닉네임은 intra_id 로 대체한다.
@@ -105,7 +107,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 | ---- | ---- | ---------- | ---------------------- | -------- | ------------ | --------------- | ------- | ------- |
 | 1    | K, F | USER_ID    | user id                | not null |              |                 |         |         |
 | 2    | K    | FR_USER_ID | 친구 user id           | not null |              |                 |         |         |
-| 3    |      | ST_CD      | 상태코드               | not null |              | 01:등록,02:해제 |         |         |
+| 3    |      | ST_CD      | 상태코드               | not null | varcahr(2)   | 01:등록,02:해제 |         |         |
 | 4    |      | RSST_DTTM  | 등록일시               |          | timestamp(0) |                 |         |         |
 | 5    |      | RELE_DTTM  | 해제일시               |          | timestamp(0) |                 |         |         |
 | 6    |      | DEL_TF     | 삭제여부               | not null | boolean      | 삭제:true       |         | false   |
@@ -157,19 +159,19 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
   - 게임내역을 관리하는 테이블이다.
 
 
-|      | key  | colunm id     | column name            | null     | data type    | domain                                 | comment | default     |
-| ---- | ---- | ------------- | ---------------------- | -------- | ------------ | -------------------------------------- | ------- | ----------- |
-| 1    | K    | GM_SRNO       | 게임일련번호           | not null | vachar(12)   | YYYYMMDDNNNN, N : seq                  |         |             |
-| 2    |      | GM_STRT_DTTM  | 게임시작시간           |          | timestamp(0) |                                        |         |             |
-| 3    |      | GM_END_DTTM   | 게임종료시간           |          | timestamp(0) |                                        |         |             |
-| 4    |      | GM_TYPE       | 게임유형               | not null | varchar(2)   | 01:1v1, 02:ladder                      |         |             |
-| 5    |      | END_TYPE      | 종료유형               | not null | varchar(2)   | 01:게임중 02:점수, 03:닷지, 04: 미실행 |         | 01          |
-| 6    |      | TRGT_SCR      | 목표점수               | not null | number       |                                        |         | 5           |
-| 7    |      | BAR_LEN       | 바길이                 | not null | number       |                                        |         | 100         |
-| 8    |      | BGRD_IMG_PATH | 배경이미지경로         | not null | vachar(200)  |                                        |         | default.png |
-| 9    |      | DEL_TF        | 삭제여부               | not null | boolean      | 삭제:true                              |         | false       |
-| 10   |      | FRST_DTTM     | 최초 입력 연월일시분초 | not null | timestamp(6) |                                        |         | now()       |
-| 11   |      | LAST_DTTM     | 최종 입력 연월일시분초 | not null | timestamp(6) |                                        |         | now()       |
+|      | key  | colunm id     | column name                  | null     | data type    | domain                                 | comment | default     |
+| ---- | ---- | ------------- | ---------------------------- | -------- | ------------ | -------------------------------------- | ------- | ----------- |
+| 1    | K    | GM_SRNO       | 게임일련번호                 | not null | vachar(12)   | YYYYMMDDNNNN, N : seq                  |         |             |
+| 2    |      | GM_STRT_DTTM  | 게임시작시간                 |          | timestamp(0) |                                        |         |             |
+| 3    |      | GM_END_DTTM/  | 게임종료시간                 |          | timestamp(0) |                                        |         |             |
+| 4    |      | GM_TYPE       | 게임유형                     | not null | varchar(2)   | 01:1v1, 02:ladder                      |         |             |
+| 5    |      | END_TYPE      | 종료유형                     | not null | varchar(2)   | 01:게임중 02:점수, 03:닷지, 04: 미실행 |         | 01          |
+| 6    |      | TRGT_SCR      | 목표점수                     | not null | number       |                                        |         | 5           |
+| 7    |      | LV_DFCT       | 난이도 (level of difficulty) | not null | number       |                                        |         | 100         |
+| 8    |      | BGRD_IMG_PATH | 배경이미지경로               | not null | vachar(200)  |                                        |         | default.png |
+| 9    |      | DEL_TF        | 삭제여부                     | not null | boolean      | 삭제:true                              |         | false       |
+| 10   |      | FRST_DTTM     | 최초 입력 연월일시분초       | not null | timestamp(6) |                                        |         | now()       |
+| 11   |      | LAST_DTTM     | 최종 입력 연월일시분초       | not null | timestamp(6) |                                        |         | now()       |
 
 - 게임시작시간 : 플레이어2명 입장 시 now() 로 업데이트 된다.
 - 게임종료시간 : 게임종료 or 플레이어임의탈주일 경우 now()로 세팅된다.
@@ -237,7 +239,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
--   TB_GM05D 게임옵션상세
+-   TB_GM03D 게임옵션상세
     - 게임환경을 정의하는 테이블이다.
     - 게임 시작 시 해당테이블을 참고해야 한다.
 
@@ -275,7 +277,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
-- TB_GM06L 레더대기내역
+- TB_GM04L 레더대기내역
   - 서버 스케쥴러에서 해당테이블을 참조하면서 게임매칭을 진행한다.
 
 |      | key  | colunm id      | column name            | null     | data type    | domain       | comment | default |
@@ -302,7 +304,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 |      | key  | colunm id    | column name            | null     | data type    | domain                               | comment          | default                         |
 | ---- | ---- | ------------ | ---------------------- | -------- | ------------ | ------------------------------------ | ---------------- | ------------------------------- |
-| 1    | k    | CHT_RM_ID    | chat room  id          | not null | varchar(12)  | YYYYMMDDNNNN                         |                  |                                 |
+| 1    | p    | CHT_RM_ID    | chat room  id          | not null | varchar(12)  | YYYYMMDDNNNN                         |                  |                                 |
 | 2    |      | CHT_RM_NM    | channel name           | not null | varchar(50)  |                                      |                  | TB_UA01M.USER_ID + ' 의 채팅방' |
 | 3    |      | CHT_RM_TYPE  | channel type           | not null | varchar(2)   | public: 01, protected:02, private:03 |                  | 01                              |
 | 4    |      | MAX_USER_CNT | Maximum people         | not null | Number       |                                      |                  | 5                               |
@@ -311,6 +313,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 | 7    |      | DEL_TF       | 삭제여부               | not null | boolean      | 삭제:true                            |                  | false                           |
 | 8    |      | FRST_DTTM    | 최초 입력 연월일시분초 | not null | timestamp(6) |                                      |                  | now()                           |
 | 9    |      | LAST_DTTM    | 최종 입력 연월일시분초 | not null | timestamp(6) |                                      |                  | now()                           |
+
 
 - Current_user count 필요할 듯
 - 생성시간
@@ -327,19 +330,19 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 |      | key  | colunm id      | column name            | null     | data type    | domain                                | comment | default           |
 | ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ------------------------------------- | ------- | ----------------- |
-| 1    | k    | CHT_RM_ID      | channel id             | not null | varchar(12)  | YYYYMMDDNNNN                          |         |                   |
-| 2    | k    | USER_ID        | user id                | not null | varchar(8)   |                                       |         |                   |
+| 1    | f, k | CHT_RM_ID      | channel id             | not null | varchar(12)  | YYYYMMDDNNNN                          |         |                   |
+| 2    | f, k | USER_ID        | user id                | not null | varchar(8)   |                                       |         |                   |
 | 3    |      | CHT_RM_AUTH    | authority              | not null | varchar(2)   | Owner:01, Administrator:02, Normal:03 |         |                   |
 | 4    |      | CHT_RM_JOIN_TF | existence              | not null | Boolean      | 채팅참여:true, 채팅미참여:false       |         | true              |
 | 5    |      | ENTRY_DTTM     | entry time             | not null | timestamp(0) |                                       |         | curr_timestamp(0) |
 | 6    |      | AUTH_CHG_DTTM  | change time            | not null | timestamp(0) |                                       |         | curr_timestamp(0) |
-| 7    |      | DEL_TF         | 삭제여부               | not null | boolean      | 삭제:true                             |         | false             |
+| 7    |      | DEL_TF         | 삭제여부               | not null | boolean      | 삭제:true/                            |         | false             |
 | 8    |      | FRST_DTTM      | 최초 입력 연월일시분초 | not null | timestamp(6) |                                       |         | now()             |
 | 9    |      | LAST_DTTM      | 최종 입력 연월일시분초 | not null | timestamp(6) |                                       |         | now()             |
 
 
 
-- TB_CH03D
+- TB_CH02D
 
 |      | key  | colunm id      | column name            | null     | data type    | domain                   | comment | default           |
 | ---- | ---- | -------------- | ---------------------- | -------- | ------------ | ------------------------ | ------- | ----------------- |
@@ -356,7 +359,7 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
-- TB_CH04L
+- TB_CH03L
 
 |      | key  | colunm id | column name            | null     | data type     | domain       | comment                                            | default |
 | ---- | ---- | --------- | ---------------------- | -------- | ------------- | ------------ | -------------------------------------------------- | ------- |
@@ -370,13 +373,13 @@ tip: systimestamp's FF : the foramt string to represent fractional seconds
 
 
 
-- TB_CH05L  메세지차단유저내역
+- TB_CH04L  메세지차단유저내역
 
 |      | key  | colunm id     | column name            | null     | data type    | domain          | comment | default |
 | ---- | ---- | ------------- | ---------------------- | -------- | ------------ | --------------- | ------- | ------- |
-| 1    | K, F | USER_ID       | user id                | not null |              |                 |         |         |
-| 2    | K    | BLOCK_USER_ID | block user  id         | not null |              |                 |         |         |
-| 3    |      | ST_CD         | 상태코드               | not null |              | 01:등록,02:해제 |         |         |
+| 1    | K, F | USER_ID       | user id                | not null | varrcher(8)  |                 |         |         |
+| 2    | K    | BLOCK_USER_ID | block user  id         | not null | varrcher(8)  |                 |         |         |
+| 3    |      | ST_CD         | 상태코드               | not null | varchar(2)   | 01:등록,02:해제 |         |         |
 | 4    |      | RSST_DTTM     | 등록일시               |          | timestamp(0) |                 |         |         |
 | 5    |      | RELE_DTTM     | 해제일시               |          | timestamp(0) |                 |         |         |
 | 6    |      | DEL_TF        | 삭제여부               | not null | boolean      | 삭제:true       |         | false   |
